@@ -1,0 +1,1854 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Folio">
+<meta name="theme-color" content="#F6F5F1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%92%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Folio Planners</title>
+<style>
+html{color-scheme:light}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
+.login{width:min(380px,100%);background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px 24px;display:grid;gap:10px;box-shadow:var(--shadow)}
+.login-brand{font-size:30px;font-weight:700;letter-spacing:-.02em}
+.login .l{font-size:13px;color:var(--ink-2);font-weight:500;margin-top:4px}
+.login .btn{justify-content:center;padding:11px 14px}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F6F5F1; --surface:#FFFFFF; --sunk:#EFEDE7; --ink:#1C1C1E; --ink-2:#6E6E73; --line:#E4E1D9; --line-2:#D6D2C8;
+  --accent:#2F5BD3; --accent-soft:#E7EDFB; --danger:#D23B30;
+  --sand:#E8E5DA; --sky:#DAE2EA; --sage:#DCE6D7; --rose:#F1DEDB; --lilac:#E4DEEF; --butter:#F2E9C9;
+  --n-yellow:#FFF7D1; --n-yellow-b:#F0D878; --n-pink:#FCE3E6; --n-pink-b:#F0B3BD; --n-green:#E1F3E4; --n-green-b:#9FD2AB; --n-blue:#E2ECFB; --n-blue-b:#A9C3EE; --n-lilac:#EEE6FA; --n-lilac-b:#C6B3EA;
+  --i-ink:#1C1C1E; --i-blue:#2F5BD3; --i-red:#D23B30; --i-green:#2E8B57; --i-orange:#E07B17; --i-hy:#FFE14D; --i-hp:#FF8FC7; --i-hg:#7FE39A;
+  --dot:#D8D4CA; --shadow:0 1px 2px rgba(30,28,20,.06),0 10px 30px -18px rgba(30,28,20,.35);
+  --f:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif; --hand:'Caveat','Segoe Print','Bradley Hand',cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#131315; --surface:#1D1E21; --sunk:#26272B; --ink:#EDEDEF; --ink-2:#9C9CA3; --line:#2E2F34; --line-2:#3A3B41;
+    --accent:#8AA6FF; --accent-soft:#232C47; --danger:#FF7B6E;
+    --sand:#2A2823; --sky:#212A33; --sage:#222B22; --rose:#302423; --lilac:#29253A; --butter:#2F2A1B;
+    --n-yellow:#3A3419; --n-yellow-b:#6B5C1E; --n-pink:#3A2429; --n-pink-b:#6C3A45; --n-green:#1F3326; --n-green-b:#335C40; --n-blue:#1E2A3D; --n-blue-b:#34507A; --n-lilac:#2C2440; --n-lilac-b:#524073;
+    --i-ink:#EDEDEF; --i-blue:#8AA6FF; --i-red:#FF7B6E; --i-green:#6FD39A; --i-orange:#FFB35C; --i-hy:#E8C62E; --i-hp:#E86BAA; --i-hg:#4FC46E;
+    --dot:#393A40; --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px -16px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#131315; --surface:#1D1E21; --sunk:#26272B; --ink:#EDEDEF; --ink-2:#9C9CA3; --line:#2E2F34; --line-2:#3A3B41;
+  --accent:#8AA6FF; --accent-soft:#232C47; --danger:#FF7B6E;
+  --sand:#2A2823; --sky:#212A33; --sage:#222B22; --rose:#302423; --lilac:#29253A; --butter:#2F2A1B;
+  --n-yellow:#3A3419; --n-yellow-b:#6B5C1E; --n-pink:#3A2429; --n-pink-b:#6C3A45; --n-green:#1F3326; --n-green-b:#335C40; --n-blue:#1E2A3D; --n-blue-b:#34507A; --n-lilac:#2C2440; --n-lilac-b:#524073;
+  --i-ink:#EDEDEF; --i-blue:#8AA6FF; --i-red:#FF7B6E; --i-green:#6FD39A; --i-orange:#FFB35C; --i-hy:#E8C62E; --i-hp:#E86BAA; --i-hg:#4FC46E;
+  --dot:#393A40; --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 30px -16px rgba(0,0,0,.7);
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f);-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#app{min-height:100%}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;display:inline-flex;align-items:center;gap:8px;line-height:1.2;white-space:nowrap;font-weight:500}
+.btn:hover{border-color:var(--line-2);background:var(--sunk)}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.primary:hover{opacity:.9;background:var(--ink)}
+.btn.ghost{background:transparent;border-color:transparent}
+.btn.ghost:hover{background:var(--sunk)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn .pl{font-size:19px;line-height:1;font-weight:400;margin-top:-2px}
+.btn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.input{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 12px;width:100%;min-width:0}
+.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 13px;font-size:14px;white-space:nowrap;font-weight:500}
+.chip:hover{background:var(--sunk)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.stk{display:inline-block}
+.stk svg{width:100%;height:100%;display:block}
+.status{display:inline-flex;align-items:center;gap:6px;color:var(--ink-2);font-size:13px;white-space:nowrap}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:#34A26A}
+.status.saving::before{background:#E8B92E}
+.status.error{color:var(--danger);white-space:normal} .status.error::before{background:var(--danger)}
+.muted{color:var(--ink-2)}
+.credit{font-size:12px;color:var(--ink-2)} .credit a{color:inherit}
+
+/* ---------- Shelf ---------- */
+.shelf-wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px}
+.shelf-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.shelf-top h1{font-size:30px;font-weight:700;letter-spacing:-.02em;margin:0;margin-right:auto}
+.shelf-top .search{width:min(260px,100%)}
+.folderbar{display:flex;align-items:center;gap:8px;margin-bottom:24px}
+.folderbar .chips{flex:0 1 auto;min-width:0}
+.chip.fchip{display:inline-flex;align-items:center;gap:7px}
+.chip .fdot{width:10px;height:10px;border-radius:50%;background:var(--fc);flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.chip.fchip[aria-pressed="true"]{background:var(--fc);border-color:var(--fc);color:var(--fci)}
+.chip.fchip[aria-pressed="true"] .fdot{background:var(--fci);opacity:.55;box-shadow:none}
+.addfold{flex:none;width:34px;height:34px;border-radius:50%;border:1px dashed var(--line-2);background:transparent;font-size:20px;line-height:1;color:var(--ink-2);display:grid;place-items:center}
+.addfold:hover{border-style:solid;border-color:var(--ink-2);color:var(--ink);background:var(--surface)}
+.fpanel{padding:10px;display:grid;gap:10px;width:260px;max-width:100%}
+.fpanel .lab{padding:0}
+.fcolors{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.fcolors .sw{width:30px;height:30px}
+.fprev{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2)}
+.pcard .fbadge{display:inline-flex;align-items:center;gap:6px}
+.pcard .fbadge i{width:8px;height:8px;border-radius:50%;background:var(--fc);box-shadow:0 0 0 1.5px rgba(255,255,255,.7)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px 20px}
+.cardwrap{display:flex;flex-direction:column;gap:8px;position:relative;min-width:0}
+.pcard{position:relative;display:flex;flex-direction:column;justify-content:space-between;border:0;border-radius:22px;padding:22px 22px 20px;min-height:250px;text-align:left;background:var(--tint,var(--sand));transition:transform .15s ease, box-shadow .15s ease;width:100%}
+.pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.pcard .ic{width:44px;height:44px}
+.pcard .t{font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.2;overflow-wrap:anywhere}
+.pcard .f{color:var(--ink-2);margin-top:4px;font-size:14px}
+.cardwrap .meta{display:flex;align-items:center;justify-content:space-between;padding:0 6px;color:var(--ink-2);font-size:14px}
+.cardwrap .more{border:0;background:transparent;border-radius:8px;padding:2px 8px;color:var(--ink-2);font-size:18px;line-height:1}
+.cardwrap .more:hover{background:var(--sunk)}
+.newcard{border:2px dashed var(--line-2);border-radius:22px;min-height:250px;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--ink-2);font-weight:500;font-size:16px}
+.newcard .plus{width:58px;height:58px;border-radius:50%;background:var(--surface);box-shadow:var(--shadow);display:grid;place-items:center;font-size:30px;color:var(--ink);font-weight:300}
+.newcard:hover{border-color:var(--ink-2);color:var(--ink)}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:var(--surface);color:var(--ink-2);margin-top:8px}
+.menu{position:fixed;z-index:80;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:6px;display:flex;flex-direction:column;gap:2px;min-width:200px;max-width:calc(100vw - 32px)}
+.menu .mi{border:0;background:transparent;border-radius:8px;padding:8px 10px;text-align:left;display:flex;gap:10px;align-items:center}
+.menu .mi:hover{background:var(--sunk)}
+.menu .mi.danger{color:var(--danger)}
+.menu .sep{height:1px;background:var(--line);margin:4px 2px}
+.menu .lab{font-size:12px;color:var(--ink-2);padding:6px 10px 2px}
+.menu .rowx{display:flex;gap:6px;padding:4px 10px 8px;flex-wrap:wrap}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line-2);padding:0}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--accent)}
+.empty{grid-column:1/-1;color:var(--ink-2);padding:30px 4px}
+
+/* ---------- Sheet ---------- */
+.scrim{position:fixed;inset:0;z-index:60;background:rgba(15,15,18,.4);display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.sheet{background:var(--bg);border-radius:22px;box-shadow:0 30px 80px -20px rgba(0,0,0,.5);width:min(980px,100%);max-height:100%;display:flex;flex-direction:column;overflow:hidden}
+.sheet-head{display:flex;align-items:center;gap:10px;padding:16px 20px}
+.sheet-head h2{font-size:21px;font-weight:700;margin:0;flex:1;letter-spacing:-.01em}
+.sheet-body{padding:4px 20px 24px;overflow:auto}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.choice{border:0;border-radius:22px;padding:24px;text-align:left;min-height:190px;display:flex;flex-direction:column;justify-content:space-between;background:var(--tint);transition:transform .15s}
+.choice:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.choice b{font-size:20px;display:block;margin-bottom:4px}
+.choice .ic{width:46px;height:46px}
+.tplgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:16px}
+.tplgrid .pcard{min-height:190px}
+.tplgrid .pcard .f{font-size:13px}
+.form{display:grid;gap:18px;max-width:560px}
+.form .l{display:block;font-size:13px;color:var(--ink-2);margin-bottom:6px;font-weight:500}
+.iconrow{display:flex;flex-wrap:wrap;gap:6px}
+.iconpick{border:2px solid transparent;background:var(--surface);border-radius:12px;width:48px;height:48px;padding:7px}
+.iconpick[aria-pressed="true"]{border-color:var(--accent)}
+@media (max-width:700px){
+  .shelf-wrap{padding:18px 16px 80px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}
+  .pcard,.newcard{min-height:190px;padding:16px;border-radius:18px}
+  .pcard .t{font-size:17px}
+  .scrim{padding:0;align-items:stretch}
+  .sheet{border-radius:0;height:100%}
+  .choices{grid-template-columns:minmax(0,1fr)}
+  .tplgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+}
+
+/* ---------- Editor ---------- */
+.ed{display:grid;grid-template-rows:auto minmax(0,1fr);height:100vh;height:100dvh}
+.top{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--bg);min-width:0}
+.top .iconbtn{border:0;background:transparent;border-radius:10px;width:40px;height:40px;padding:6px;flex:none}
+.top .iconbtn:hover{background:var(--sunk)}
+.top .iconbtn .stk{width:100%;height:100%}
+.top .ttl{font-size:18px;font-weight:700;border:1px solid transparent;background:var(--surface);border-radius:12px;padding:7px 14px;min-width:0;flex:0 1 380px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.top .ttl:focus{outline:none;border-color:var(--accent)}
+.top select{border:0;background:transparent;color:var(--ink-2);padding:6px;border-radius:8px;max-width:150px}
+.top select:hover{background:var(--sunk)}
+.spacer{flex:1}
+.ed-body{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:0}
+.pages{padding:22px 12px;overflow:auto;border-right:1px solid var(--line)}
+.pages-head{display:flex;align-items:center;justify-content:space-between;padding:0 8px 10px}
+.pages-head span{font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--ink-2);text-transform:uppercase}
+.plist{display:flex;flex-direction:column;gap:2px}
+.pitem{display:flex;align-items:center;border-radius:12px;flex:none}
+.pitem button.pn{flex:1;min-width:0;border:0;background:transparent;text-align:left;padding:10px 12px;border-radius:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pitem:hover{background:var(--sunk)}
+.pitem.on{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.pitem .pm{border:0;background:transparent;opacity:0;padding:4px 8px;border-radius:8px;color:var(--ink-2)}
+.pitem:hover .pm,.pitem.on .pm,.pitem .pm:focus-visible{opacity:1}
+.main{overflow:auto;min-height:0;padding:22px 28px 120px}
+.pagecol{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.pname{font-size:17px;font-weight:500;border:1px solid var(--line);background:var(--sunk);border-radius:14px;padding:11px 18px;width:100%}
+.pname:focus{outline:none;border-color:var(--accent);background:var(--surface)}
+.toolbar{position:sticky;top:-22px;z-index:20;display:flex;gap:8px;flex-wrap:wrap;padding:8px 0;background:var(--bg)}
+.toolbar .btn{border-radius:12px;padding:9px 14px}
+.toolbar .btn .stk{width:20px;height:20px}
+.toolbar .draw{margin-left:auto}
+.paper{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:40px 48px 60px 64px;min-height:560px}
+.blocks{display:flex;flex-direction:column;gap:18px;position:relative;z-index:1}
+.blk{position:relative;display:flex;gap:6px;align-items:flex-start;margin-left:-40px}
+.handle{flex:none;width:30px;height:30px;margin-top:2px;border:0;background:transparent;border-radius:8px;color:var(--ink-2);opacity:.45;cursor:grab;touch-action:none;display:grid;place-items:center}
+.handle svg{width:14px;height:14px}
+.blk:hover .handle,.blk:focus-within .handle{opacity:1}
+.handle:hover{background:var(--sunk)}
+.bbody{flex:1;min-width:0}
+.blk.dragging{opacity:.4}
+.dropline{position:absolute;left:0;right:0;height:3px;border-radius:2px;background:var(--accent);z-index:5;pointer-events:none}
+.addhint{border:0;background:transparent;color:var(--ink-2);text-align:left;padding:8px 0 0;opacity:.7;align-self:flex-start}
+.addhint:hover{opacity:1}
+[contenteditable]{outline:none;white-space:pre-wrap;overflow-wrap:anywhere;cursor:text;border-radius:4px}
+[data-ph]:empty::before{content:attr(data-ph);color:var(--ink-2);opacity:.6;pointer-events:none}
+.h1{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.h2{font-size:21px;font-weight:600;line-height:1.3}
+.txt{line-height:1.6;min-height:1.6em}
+.lt{font-weight:600;margin-bottom:6px}
+.ck{display:flex;align-items:flex-start;gap:12px;padding:4px 0}
+.li{display:flex;align-items:flex-start;gap:10px;padding:3px 0}
+.ck,.li{position:relative}
+.rgrip{position:absolute;left:-24px;top:2px;width:20px;height:24px;padding:0;border:0;border-radius:6px;background:transparent;color:var(--ink-2);opacity:0;cursor:grab;touch-action:none;display:grid;place-items:center}
+.rgrip svg{width:11px;height:11px}
+.ck:hover .rgrip,.li:hover .rgrip,.tg .rg:hover .rgrip,.tg .rg.hl .rgrip,.hn:hover .rgrip,.rgrip:focus-visible{opacity:.8}
+.rgrip:hover{background:var(--sunk);opacity:1}
+@media (hover:none){.rgrip{opacity:.4}}
+.tg>div.rg{padding:0;display:grid;place-items:center;min-height:40px}
+.tg .rg .rgrip{position:static;opacity:.45}
+.hg .hn .rgrip{position:static;flex:none;margin-left:-4px}
+.rowdrag{opacity:.35}
+.rowline{position:absolute;left:0;right:0;height:3px;border-radius:2px;background:var(--acc,var(--accent));pointer-events:none;z-index:4}
+.bbody{position:relative}
+.li .lm{flex:none;min-width:22px;text-align:right;color:var(--acc,var(--accent));font-weight:700;font-variant-numeric:tabular-nums;line-height:inherit;user-select:none}
+.li .lm.sym{text-align:center;font-weight:400}
+.li .lm.ldot{align-self:stretch;display:flex;justify-content:center;align-items:flex-start;font-size:inherit}
+.li .lm.ldot::before{content:"";display:block;width:7px;height:7px;min-width:7px;min-height:7px;aspect-ratio:1;margin-top:calc(.75em - 3.5px);border-radius:50%;background:currentColor;flex:0 0 7px}
+.li .ct{flex:1;min-width:0}
+.mk{min-width:44px;font-weight:700}
+.cb{flex:none;width:22px;height:22px;border:1.5px solid var(--ink-2);border-radius:6px;background:transparent;padding:0;margin-top:1px;position:relative}
+.cb.on{background:var(--ink);border-color:var(--ink)}
+.cb.on::after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(40deg)}
+.ck .ct{flex:1;min-width:0}
+.ck.done .ct{text-decoration:line-through;color:var(--ink-2)}
+.x{border:0;background:transparent;color:var(--ink-2);width:26px;height:26px;border-radius:6px;opacity:.55;flex:none;font-size:18px;line-height:1}
+.x:hover{opacity:1;background:var(--sunk)}
+.addi{border:0;background:transparent;color:var(--ink-2);padding:6px 0;display:flex;gap:10px;align-items:center}
+.addi:hover{color:var(--ink)}
+.note{border:1.5px solid var(--nb);background:var(--nc);border-radius:16px;padding:16px 20px;min-height:84px;font-family:var(--hand);font-size:24px;line-height:1.3}
+.tbl{overflow-x:auto}
+.tg{display:grid;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;min-width:420px}
+.tg>div{padding:9px 12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-height:40px}
+.tg>div.lc{border-right:0}
+.tg>.th{background:var(--sunk);font-size:13px;font-weight:600;color:var(--ink-2)}
+.hab{overflow-x:auto}
+.hg{display:grid;align-items:center;row-gap:6px;column-gap:4px}
+.hg .dh{font-size:11px;font-weight:600;color:var(--ink-2);text-align:center}
+.hg .hn{display:flex;align-items:center;gap:4px;padding-right:8px;min-width:0}
+.hg .hn [contenteditable]{flex:1;min-width:0}
+.dot{justify-self:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line-2);background:transparent;padding:0}
+.dot.on{background:var(--i-green);border-color:var(--i-green)}
+.hg.m .dot{width:15px;height:15px}
+.cnt{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.cnt button{border:0;background:transparent;padding:0;width:34px;height:34px}
+.cnt button .stk{width:100%;height:100%}
+.cnt button.off{opacity:.2;filter:grayscale(1)}
+.moods{display:flex;gap:8px;margin-top:4px}
+.moods button{border:0;background:transparent;padding:3px;width:44px;height:44px;border-radius:50%;opacity:.3}
+.moods button .stk{width:100%;height:100%}
+.moods button.on{opacity:1;box-shadow:0 0 0 2px var(--ink)}
+.wk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--line-2);border-radius:14px;overflow:hidden}
+.wk>div{padding:10px 14px;min-height:104px;border-bottom:1px solid var(--line)}
+.wk>div:nth-child(odd){border-right:1px solid var(--line)}
+.wk>div:nth-last-child(-n+2){border-bottom:0}
+.wkh{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--ink-2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.wkh b{font-size:17px;color:var(--ink);letter-spacing:0}
+.dv{border:0;border-top:2px dashed var(--line-2);margin:10px 0}
+.cvwrap{border:1px solid var(--line-2);border-radius:16px;overflow:hidden;position:relative;background-color:var(--surface)}
+.cvwrap.dots{background-image:radial-gradient(circle,var(--dot) 1.2px,transparent 1.6px);background-size:22px 22px;background-position:11px 11px}
+.cvwrap.grid{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:22px 22px}
+.cvwrap canvas{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.cvwrap.penonly canvas{touch-action:pan-y}
+.cvhint{position:absolute;left:14px;bottom:10px;font-size:12px;color:var(--ink-2);pointer-events:none}
+.cvtools{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+
+/* free decoration layer */
+.deco{position:absolute;inset:0;z-index:3;pointer-events:none}
+.dc{position:absolute;pointer-events:auto;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.dc .stk{width:100%;height:100%}
+.dc.sel{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
+.dc .rz{position:absolute;right:-12px;bottom:-12px;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid var(--surface);display:none;cursor:nwse-resize;touch-action:none}
+.dc.sel .rz{display:block}
+.dc .pic{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;user-select:none;-webkit-user-drag:none;border-radius:4px}
+.dc .pic.missing{background:var(--sunk);border:1px dashed var(--line-2)}
+.upbox{border:2px dashed var(--line-2);border-radius:14px;padding:22px 16px;display:grid;gap:10px;justify-items:center;text-align:center;color:var(--ink-2)}
+.upbox.over{border-color:var(--accent);background:var(--accent-soft)}
+.upbox kbd{font:600 12px var(--f);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:6px;padding:1px 6px;background:var(--surface);color:var(--ink)}
+.paper.dropping{outline:3px dashed var(--accent);outline-offset:-10px}
+.dc .rt{position:absolute;left:50%;top:-44px;width:28px;height:28px;margin-left:-14px;border-radius:50%;background:var(--surface);border:2px solid var(--accent);color:var(--accent);display:none;place-items:center;font-size:15px;line-height:1;cursor:grab;touch-action:none;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.dc .rt::after{content:"";position:absolute;left:50%;top:26px;width:2px;height:16px;margin-left:-1px;background:var(--accent)}
+.dc.sel .rt{display:grid}
+.dc.rotating,.dc.rotating .rt{cursor:grabbing}
+.rotbadge{position:absolute;z-index:8;pointer-events:none;background:var(--ink);color:var(--surface);font:600 12px/1 var(--f);padding:5px 8px;border-radius:8px;font-variant-numeric:tabular-nums}
+.dctools{position:absolute;z-index:6;display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:3px}
+.dctools button{border:0;background:transparent;border-radius:7px;padding:4px 9px;font-size:13px}
+.dctools button:hover{background:var(--sunk)}
+.tape{width:100%;height:100%;opacity:.9;clip-path:polygon(0 8%,3% 0,6% 10%,9% 2%,91% 0,94% 9%,97% 1%,100% 8%,100% 92%,97% 100%,94% 90%,91% 99%,9% 100%,6% 91%,3% 100%,0 92%)}
+/* ink overlay */
+.overlay{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;border-radius:24px}
+.overlay.live{pointer-events:auto;cursor:crosshair;touch-action:none}
+.overlay.live.penonly{touch-action:pan-y}
+.drawing .paper{box-shadow:0 0 0 3px var(--accent-soft)}
+.inkbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:6px 8px;flex-wrap:wrap;justify-content:center;max-width:calc(100% - 32px)}
+.tool{border:0;background:transparent;border-radius:10px;padding:7px 10px;font-size:14px;font-weight:500;display:inline-flex;gap:6px;align-items:center}
+.tool:hover{background:var(--sunk)}
+.tool[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.ic-sw{width:24px;height:24px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line-2);padding:0;margin:0 2px}
+.ic-sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
+.vsep{width:1px;height:24px;background:var(--line);margin:0 4px}
+/* picker */
+.picker{position:fixed;z-index:70;width:min(420px,calc(100vw - 24px));max-height:min(520px,75vh);background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.picker-head{padding:12px 12px 8px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
+.picker-body{overflow:auto;padding:10px 12px 14px}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:4px}
+.sgrid button{border:0;background:transparent;border-radius:10px;padding:6px;aspect-ratio:1}
+.sgrid button .stk{width:100%;height:100%}
+.sgrid button:hover{background:var(--sunk)}
+.tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tgrid button{border:1px solid var(--line);background:var(--bg);border-radius:12px;height:60px;padding:14px}
+.tabs{display:flex;gap:4px}
+.tabs button{border:0;background:transparent;border-radius:8px;padding:6px 12px;font-weight:500;color:var(--ink-2)}
+.tabs button[aria-selected="true"]{background:var(--sunk);color:var(--ink)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:90;background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 10px 10px 16px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+.drawing .toast{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+.toast button{background:transparent;border:0;color:inherit;font-weight:700;text-decoration:underline;padding:4px 8px}
+.loading{min-height:100vh;display:grid;place-items:center;color:var(--ink-2)}
+@media (max-width:820px){
+  .top{padding:8px 12px;gap:6px}
+  .top .ttl{font-size:16px;padding:6px 10px}
+  .top .hide-sm{display:none}
+  .ed-body{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr)}
+  .pages{border-right:0;border-bottom:1px solid var(--line);padding:8px 12px;display:flex;flex-direction:row-reverse;align-items:center;gap:8px;overflow:hidden}
+  .pages-head{padding:0}
+  .pages-head span{display:none}
+  .plist{flex-direction:row;overflow-x:auto;scrollbar-width:none;flex:1}
+  .pitem button.pn{padding:7px 12px;max-width:180px}
+  .pitem .pm{display:none}
+  .main{padding:14px 16px 120px}
+  .toolbar{top:-14px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:8px 16px}
+  .toolbar .draw{margin-left:0}
+  .paper{padding:24px 16px 48px 36px;border-radius:20px;min-height:420px}
+  .blk{margin-left:-30px;gap:2px}
+  .handle{width:26px}
+  .h1{font-size:25px}
+  .note{font-size:22px}
+  .tool .tl{display:none}
+  .cvtools{gap:2px}
+  .picker{left:12px!important;right:12px;top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ---------- Notebook look & style presets ---------- */
+.pt-dots{background-image:radial-gradient(circle,var(--line) 1.25px,transparent 1.75px);background-size:24px 24px;background-position:12px 12px}
+.pt-grid{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:24px 24px}
+.pt-lines{background-image:linear-gradient(transparent 31px,var(--line) 31px);background-size:100% 32px;background-position:0 14px}
+.notebook{position:relative;background:var(--cover);border-radius:14px 26px 26px 14px;padding:10px 10px 12px 28px;box-shadow:0 1px 2px rgba(0,0,0,.08),0 22px 44px -26px rgba(0,0,0,.55);color:var(--ink);font-family:var(--fb)}
+.notebook::before{content:"";position:absolute;left:10px;top:30px;bottom:30px;width:34px;z-index:7;pointer-events:none;
+  background:radial-gradient(circle at 27px 15px,rgba(0,0,0,.32) 0 3.6px,transparent 4.2px) 0 0/34px 36px repeat-y,
+             linear-gradient(transparent 11px,#b9bec6 11px,#eef0f2 14px,#9aa0a8 17px,transparent 17px) 0 0/28px 36px repeat-y}
+.notebook .paper{border:0;border-radius:6px 18px 18px 6px;background-color:var(--surface);padding-left:70px;box-shadow:inset 8px 0 12px -10px rgba(0,0,0,.25)}
+.notebook .blocks{font-size:calc(15px * var(--bs,1))}
+.notebook .h1{font-family:var(--fh);font-weight:var(--hw);font-size:calc(30px * var(--hs,1));text-transform:var(--ht,none);letter-spacing:var(--hl,-.02em)}
+.notebook .h2{font-family:var(--fh);font-weight:var(--hw);font-size:calc(21px * var(--hs,1));text-transform:var(--ht,none)}
+.notebook .lt{font-family:var(--fh);font-weight:var(--hw);font-size:calc(1.05em * var(--hs,1))}
+.notebook .cb{border-color:var(--ink-2)}
+.notebook .cb.on{background:var(--acc);border-color:var(--acc)}
+.notebook .cb.on::after{border-color:#fff}
+.notebook .dot{border-color:var(--ink-2);opacity:.9}
+.notebook .dot.on{background:var(--acc);border-color:var(--acc);opacity:1}
+.notebook .note{color:#2A2723}
+.notebook .tg{background:color-mix(in srgb,var(--surface) 85%,transparent)}
+.notebook .wk{background:color-mix(in srgb,var(--surface) 70%,transparent)}
+.use .blk{margin-left:0}
+.use .notebook .paper{padding-left:62px}
+.use .dc{pointer-events:none}
+.use .addhint{display:none}
+.use .ttl-static{font-size:18px;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 6px}
+.pcard{color:var(--cin,var(--ink));padding-left:34px}
+.pcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:16px;border-radius:22px 0 0 22px;background:rgba(0,0,0,.13)}
+.pcard::after{content:"";position:absolute;right:28px;top:0;bottom:0;width:9px;background:rgba(0,0,0,.12)}
+.pcard .f{color:inherit;opacity:.72}
+.pcard .tag{background:rgba(255,255,255,.7);color:#3a3a3c}
+.appear{display:grid;gap:14px;padding:8px 8px 10px;width:400px;max-width:100%}
+.asec{display:grid;gap:8px}
+.asec .lab{padding:0}
+.aswatches{display:flex;flex-wrap:wrap;gap:8px}
+.aswatches .sw{width:30px;height:30px}
+.aopts{display:grid;grid-template-columns:repeat(var(--n,4),minmax(0,1fr));gap:6px}
+.aopt span:last-child{white-space:nowrap}
+.aopt{border:1.5px solid var(--line);background:transparent;border-radius:10px;padding:6px 4px;display:grid;justify-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--ink-2)}
+.aopt:hover{background:var(--sunk)}
+.aopt[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);background:var(--accent-soft)}
+.apat{display:block;width:44px;height:30px;border-radius:5px;background-color:var(--surface);border:1px solid var(--line-2);background-size:8px 8px!important;background-position:0 0!important}
+.apat.pt-lines{background-image:linear-gradient(transparent 6px,var(--line) 6px)!important;background-size:100% 8px!important}
+.afont{font-size:22px;line-height:30px;color:var(--ink)}
+.editbtn{font-weight:600}
+@media (max-width:820px){
+  .notebook{padding:6px 6px 8px 18px;border-radius:12px 20px 20px 12px}
+  .notebook::before{left:3px;width:30px;background-size:30px 36px,24px 36px}
+  .notebook .paper{padding-left:44px}
+  .use .notebook .paper{padding-left:40px}
+}
+</style>
+
+</head>
+<body>
+<div id="app"><div class="loading">Opening your planners…</div></div>
+
+<script src="supabase.js"></script>
+<script src="config.js"></script>
+<script src="backend.js"></script>
+<script>
+"use strict";
+/* ============ Constants ============ */
+const TINTS = ['sand','sky','sage','rose','lilac','butter'];
+const NOTES = ['yellow','pink','green','blue','lilac'];
+const INK_COLORS = ['ink','blue','red','green','orange'];
+const HL_COLORS = ['hy','hp','hg'];
+const TAPES = [{color:'#9FD3C7',pattern:'stripes'},{color:'#F5B5A0',pattern:'dots'},{color:'#F2D16B',pattern:'plain'},{color:'#B7C3F4',pattern:'stripes'},{color:'#E6A5C6',pattern:'dots'},{color:'#C9D9A5',pattern:'plain'}];
+const MOODS = ['loudly-crying-face','slightly-frowning-face','neutral-face','slightly-smiling-face','grinning-face-with-big-eyes'];
+const COUNT_ICONS = ['droplet','check-mark-button','red-heart','star','fire','hot-beverage','books','sparkles'];
+const ICON_CHOICES = ['notebook','spiral-calendar','person-lifting-weights','flexed-biceps','books','green-salad','red-heart','broom','musical-note','fire','sun','money-bag','airplane','artist-palette','memo','bullseye','potted-plant','hot-beverage','sparkles','cat-face','rainbow'];
+const SUGGESTED = ['star','glowing-star','sparkles','red-heart','fire','hundred-points','check-mark-button','pushpin','memo','spiral-calendar','alarm-clock','hot-beverage','books','pencil','laptop','light-bulb','flexed-biceps','person-lifting-weights','person-running','soccer-ball','droplet','green-salad','avocado','strawberry','cherry-blossom','four-leaf-clover','potted-plant','sun','crescent-moon','rainbow','rocket','trophy','crown','ribbon','balloon','party-popper','money-bag','airplane','luggage','musical-note','artist-palette','cat-face','dog-face','broom','bullseye'];
+const SYN = {gym:['weight','biceps','muscle','running','dumbbell'],sport:['ball','running','trophy','medal','biceps'],workout:['biceps','weight','running'],food:['food','fruit','salad','bread','cooking','pizza'],study:['book','pencil','graduation','school','memo','notebook'],water:['droplet','water','cup'],sleep:['sleeping','bed','moon','zzz'],money:['money','dollar','euro','coin','bank'],love:['heart','love'],travel:['airplane','luggage','map','world','train'],coffee:['coffee','beverage','cup'],happy:['smiling','grinning','joy'],sad:['crying','frowning'],weather:['sun','cloud','rain','snow','rainbow'],plant:['plant','leaf','flower','seedling','tree'],music:['music','note','guitar','headphone','microphone'],dance:['dancing','dancer','music'],clean:['broom','soap','sponge','basket'],drawing:['palette','pencil','crayon','paintbrush'],sketch:['palette','pencil','crayon','paintbrush']};
+const FOLDER_COLORS = [
+  {c:'#A7C7E7', i:'#10304F', n:'Sky'}, {c:'#F4A6A6', i:'#5A1414', n:'Coral'}, {c:'#B5D8A8', i:'#1E3D14', n:'Sage'}, {c:'#F9D77E', i:'#4A3500', n:'Honey'}, {c:'#CDB4F2', i:'#35196B', n:'Lilac'}, {c:'#F7B7D2', i:'#5C1233', n:'Pink'},
+  {c:'#9FDCD4', i:'#0E3B36', n:'Mint'}, {c:'#F6BD8F', i:'#552400', n:'Peach'}, {c:'#C9C3B6', i:'#34302A', n:'Stone'}, {c:'#5B7BE0', i:'#FFFFFF', n:'Blue'}, {c:'#E0584B', i:'#FFFFFF', n:'Red'}, {c:'#2F2F33', i:'#FFFFFF', n:'Ink'}];
+const fcol = f => FOLDER_COLORS.find(x => x.c===(f && f.color)) || FOLDER_COLORS[8];
+const DEFAULT_FOLDERS = [{id:'everyday',name:'Everyday',color:'#A7C7E7'},{id:'sport',name:'Sport',color:'#F4A6A6'},{id:'studying',name:'Studying',color:'#CDB4F2'},{id:'food',name:'Food',color:'#B5D8A8'}];
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const GRIP = '<svg viewBox="0 0 14 14" aria-hidden="true"><g fill="currentColor"><circle cx="4" cy="2.5" r="1.4"/><circle cx="10" cy="2.5" r="1.4"/><circle cx="4" cy="7" r="1.4"/><circle cx="10" cy="7" r="1.4"/><circle cx="4" cy="11.5" r="1.4"/><circle cx="10" cy="11.5" r="1.4"/></g></svg>';
+
+/* ============ Helpers ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const uid = () => Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-5);
+const clone = o => JSON.parse(JSON.stringify(o));
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+function h(t, a, ...kids){
+  const n = document.createElement(t);
+  if (a) for (const k in a){
+    const v = a[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') n.className = v;
+    else if (k === 'style' && typeof v === 'object'){ for (const s in v) if (v[s] != null){ if (s.startsWith('--')) n.style.setProperty(s, v[s]); else n.style[s] = v[s]; } }
+    else if (k.startsWith('on') && typeof v === 'function') n.addEventListener(k.slice(2), v);
+    else if (k === 'text') n.textContent = v;
+    else if (k === 'html') n.innerHTML = v;
+    else n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of kids.flat()) if (c != null && c !== false) n.append(c.nodeType ? c : document.createTextNode(String(c)));
+  return n;
+}
+const pad = n => String(n).padStart(2,'0');
+const ymd = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parseD = s => { const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(s||''); return m ? new Date(+m[1], +m[2]-1, +m[3], 12) : new Date(); };
+const addDays = (d,n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
+const monday = d => addDays(d, -((d.getDay()+6)%7));
+function isoWeek(d){ const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const day = t.getUTCDay()||7; t.setUTCDate(t.getUTCDate()+4-day); const y0 = new Date(Date.UTC(t.getUTCFullYear(),0,1)); return Math.ceil(((t-y0)/864e5+1)/7); }
+const fmt = (d,o) => d.toLocaleDateString('en-GB', o);
+function tokens(s, dateStr){
+  if (!s || s.indexOf('{') < 0) return s || '';
+  const d = parseD(dateStr), mon = monday(d), sun = addDays(mon,6);
+  const map = {week:'Week '+isoWeek(d), range:`${fmt(mon,{day:'numeric',month:'short'})} – ${fmt(sun,{day:'numeric',month:'short'})}`, weekday:fmt(d,{weekday:'long'}), date:fmt(d,{day:'numeric',month:'long'}), month:fmt(d,{month:'long',year:'numeric'}), year:String(d.getFullYear())};
+  return s.replace(/\{(week|range|weekday|date|month|year)\}/g, (m,k) => map[k]);
+}
+const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+function focusEnd(n){ if (!n) return; n.focus(); try{ const r = document.createRange(); r.selectNodeContents(n); r.collapse(false); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }catch(e){} }
+function editable(tag, cls, val, onSet, opts={}){
+  const n = h(tag, {class:cls}); n.textContent = val || '';
+  if (opts.lock && !S.editing) return n;   // structure is fixed outside Edit mode
+  if (opts.ph) n.dataset.ph = opts.ph;
+  n.contentEditable = 'plaintext-only';
+  if (n.contentEditable !== 'plaintext-only') n.contentEditable = 'true';
+  n.addEventListener('input', () => { let v = n.innerText; if (v === '\n'){ v = ''; n.textContent = ''; } onSet(v.replace(/\n$/,'')); touch(); });
+  n.addEventListener('paste', e => { if (n.contentEditable === 'true'){ e.preventDefault(); document.execCommand('insertText', false, e.clipboardData.getData('text/plain')); } });
+  n.addEventListener('keydown', e => {
+    if (opts.onKey && opts.onKey(e, n)) return;
+    if (opts.single && e.key === 'Enter'){ e.preventDefault(); n.blur(); }
+  });
+  return n;
+}
+
+/* ============ Stickers: the device's own emoji (Apple emoji on Mac, iPhone and iPad) ============ */
+// emoji.json: names, categories and search keywords from Emojibase (MIT). The pictures themselves come from the system font.
+const EMOJI_FONT = "'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif";
+const Stickers = {
+  data:null, failed:false, _p:null,
+  load(){
+    return this._p ||= fetch('emoji.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(d => { this.data = d; this.names = Object.keys(d.e); onStickersReady(); })
+      .catch(() => { this.failed = true; onStickersReady(); });
+  },
+  has(n){ return !!(this.data && this.data.e[n]); },
+  node(name, cls='stk'){ const n = h('span', {class:cls, 'aria-hidden':'true', 'data-stk':name}); this.fill(n, name); return n; },
+  fill(n, name){
+    const ch = this.data && this.data.e[name];
+    n.replaceChildren();
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 32 32');
+    if (ch){
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      t.setAttribute('x', '16'); t.setAttribute('y', '17'); t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'central');
+      t.setAttribute('font-size', '27'); t.setAttribute('font-family', EMOJI_FONT);
+      t.textContent = ch; svg.append(t);
+    } else {
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', '16'); c.setAttribute('cy', '16'); c.setAttribute('r', '12'); c.setAttribute('fill', 'currentColor'); c.setAttribute('opacity', '.1');
+      svg.append(c);
+    }
+    n.append(svg);
+  },
+  search(q, cat){
+    if (!this.data) return [];
+    if (!q.trim()) return !cat || cat==='Popular' ? SUGGESTED.filter(n => this.has(n)) : (this.data.c[cat]||[]);
+    const toks = q.toLowerCase().split(/[\s,-]+/).filter(Boolean), out = [];
+    for (const n of this.names){
+      const hay = n + ' ' + (this.data.k[n] || '');
+      let ok = true, score = 0;
+      for (const t of toks){ const hit = [t, ...(SYN[t]||[])].find(a => hay.includes(a)); if (!hit){ ok = false; break; } score += n.startsWith(hit) ? 3 : n.includes(hit) ? 2 : 1; }
+      if (ok) out.push([score - n.length/100, n]);
+    }
+    return out.sort((a,b) => b[0]-a[0]).map(x => x[1]);
+  }
+};
+function onStickersReady(){
+  document.querySelectorAll('[data-stk]').forEach(n => Stickers.fill(n, n.dataset.stk));
+  if (S.picker) renderPicker();
+}
+
+
+/* ============ Notebook appearance: cover, paper, pattern, font ============ */
+const COVERS = [
+  {c:'#E6E3DC', n:'Stone'}, {c:'#D8C9B3', n:'Sand'}, {c:'#F6C3D1', n:'Blush'}, {c:'#CFC2F5', n:'Lilac'}, {c:'#A9C7EA', n:'Sky'}, {c:'#9DB79A', n:'Sage'},
+  {c:'#FFD23F', n:'Sunshine'}, {c:'#E4572E', n:'Tomato'}, {c:'#A67C52', n:'Kraft'}, {c:'#5A3E2B', n:'Cocoa'}, {c:'#2B3A67', n:'Navy'}, {c:'#1F2430', n:'Ink'}];
+const PAPERS = {
+  white:{n:'White', bg:'#FFFFFF', ink:'#1C1C1E', muted:'#8A8A8E', line:'#E6E3DD'},
+  cream:{n:'Cream', bg:'#FAF4E8', ink:'#3A3129', muted:'#998C7C', line:'#E7DCC8'},
+  blush:{n:'Blush', bg:'#FFF5F7', ink:'#4E2A33', muted:'#B08591', line:'#F2D4DC'},
+  mint:{n:'Mint', bg:'#F2F7F0', ink:'#27352A', muted:'#7F8F7C', line:'#D6E1D0'},
+  night:{n:'Night', bg:'#25262B', ink:'#ECEAE5', muted:'#9C9A94', line:'#3A3B41', dark:true}};
+const PATTERNS = [['blank','Blank'],['lines','Lined'],['grid','Squared'],['dots','Dotted']];
+const FONTS = {
+  clean:{n:'Clean', head:"'Instrument Sans',system-ui,sans-serif", hw:700, body:"'Instrument Sans',system-ui,sans-serif"},
+  rounded:{n:'Rounded', head:"'Quicksand',system-ui,sans-serif", hw:700, body:"'Nunito',system-ui,sans-serif", bs:1.03},
+  classic:{n:'Classic', head:"'Playfair Display',Georgia,serif", hw:700, body:"'Lora',Georgia,serif", hl:'0'},
+  hand:{n:'Handwritten', head:"'Caveat',cursive", hw:700, body:"'Patrick Hand','Comic Sans MS',cursive", bs:1.12, hs:1.35, hl:'0'},
+  typewriter:{n:'Typewriter', head:"'Courier Prime','Courier New',monospace", hw:700, body:"'Courier Prime','Courier New',monospace", hl:'0'}};
+const DEFAULT_LOOK = {cover:'#E6E3DC', paper:'white', pattern:'dots', font:'clean'};
+// Older planners stored a named style; map each one to the equivalent settings.
+const OLD_STYLE_LOOK = {
+  minimal:{cover:'#E6E3DC', paper:'white', pattern:'blank', font:'clean'}, cute:{cover:'#F6C3D1', paper:'blush', pattern:'dots', font:'rounded'},
+  aesthetic:{cover:'#D8C9B3', paper:'cream', pattern:'lines', font:'classic'}, bright:{cover:'#FFD23F', paper:'white', pattern:'grid', font:'rounded'},
+  pastel:{cover:'#CFC2F5', paper:'white', pattern:'dots', font:'rounded'}, botanical:{cover:'#9DB79A', paper:'mint', pattern:'lines', font:'classic'},
+  academia:{cover:'#5A3E2B', paper:'night', pattern:'lines', font:'classic'}, retro:{cover:'#E4572E', paper:'cream', pattern:'grid', font:'typewriter'},
+  kraft:{cover:'#A67C52', paper:'cream', pattern:'dots', font:'hand'}, sporty:{cover:'#1F2430', paper:'white', pattern:'grid', font:'clean'}};
+const TINT_STYLE = {sand:'aesthetic', sky:'minimal', sage:'botanical', rose:'cute', lilac:'pastel', butter:'bright'};
+const TEMPLATE_LOOK = {weekly:'minimal', training:'sporty', food:'botanical', study:'pastel', daily:'bright', habits:'cute', chores:'minimal', sketch:'kraft', lecture:'aesthetic', packing:'retro', budget:'minimal', gratitude:'cute'};
+const lookOf = p => ({...DEFAULT_LOOK, ...(p && (p.look || OLD_STYLE_LOOK[p.style]) || {})});
+function lum(hex){ const n = parseInt(hex.slice(1), 16), c = [n>>16 & 255, n>>8 & 255, n & 255].map(v => { v /= 255; return v <= .03928 ? v/12.92 : Math.pow((v+.055)/1.055, 2.4); }); return .2126*c[0] + .7152*c[1] + .0722*c[2]; }
+function resolveLook(look){
+  const pp = PAPERS[look.paper] || PAPERS.white, f = FONTS[look.font] || FONTS.clean, L = lum(look.cover);
+  const acc = pp.dark ? (L < .2 ? `color-mix(in srgb, ${look.cover} 45%, white)` : look.cover) : (L > .45 ? `color-mix(in srgb, ${look.cover} 55%, ${pp.ink})` : look.cover);
+  return {cover:look.cover, cin: L > .4 ? '#1C1C1E' : '#FFFFFF', paper:pp.bg, ink:pp.ink, muted:pp.muted, line:pp.line, acc, pattern:look.pattern, dark:!!pp.dark, ...f};
+}
+const FONT_Q = {'Nunito':'Nunito:wght@400;600','Quicksand':'Quicksand:wght@500;700','Lora':'Lora:wght@400;600','Playfair Display':'Playfair+Display:wght@600;700','Courier Prime':'Courier+Prime:wght@400;700','Patrick Hand':'Patrick+Hand'};
+const loadedFonts = new Set();
+function ensureFonts(list){
+  const fams = [];
+  for (const p of list) for (const stack of [p.head, p.body]){ const f = (stack.match(/'([^']+)'/)||[])[1]; if (f && FONT_Q[f] && !loadedFonts.has(f)){ loadedFonts.add(f); fams.push(FONT_Q[f]); } }
+  if (fams.length) document.head.append(h('link', {rel:'stylesheet', href:'https://fonts.googleapis.com/css2?family='+fams.join('&family=')+'&display=swap'}));
+}
+function applyStyle(node, p){
+  const v = {'--cover':p.cover, '--surface':p.paper, '--ink':p.ink, '--ink-2':p.muted, '--line':p.line, '--line-2':p.line, '--sunk':`color-mix(in srgb, ${p.line} 55%, ${p.paper})`, '--i-ink':p.ink, '--dot':p.line, '--acc':p.acc, '--fh':p.head, '--fb':p.body, '--hw':p.hw, '--hs':p.hs||1, '--bs':p.bs||1, '--ht':p.ht||'none', '--hl':p.hl||'-.02em',
+    '--n-yellow':'#FFF7D1', '--n-yellow-b':'#F0D878', '--n-pink':'#FCE3E6', '--n-pink-b':'#F0B3BD', '--n-green':'#E1F3E4', '--n-green-b':'#9FD2AB', '--n-blue':'#E2ECFB', '--n-blue-b':'#A9C3EE', '--n-lilac':'#EEE6FA', '--n-lilac-b':'#C6B3EA'};
+  for (const k in v) node.style.setProperty(k, String(v[k]));
+  node.style.colorScheme = p.dark ? 'dark' : 'light';
+}
+function coverSwatches(current, onPick){
+  const row = h('div', {class:'aswatches', role:'radiogroup', 'aria-label':'Cover colour'});
+  COVERS.forEach(cv => { const b = h('button', {class:'sw', type:'button', role:'radio', title:cv.n, 'aria-label':cv.n+' cover', 'aria-checked': current===cv.c ? 'true':'false', 'aria-pressed': current===cv.c ? 'true':'false', style:{background:cv.c}, onclick:() => {
+    row.querySelectorAll('.sw').forEach(x => { const on = x===b; x.setAttribute('aria-pressed', on?'true':'false'); x.setAttribute('aria-checked', on?'true':'false'); }); onPick(cv.c); }}); row.append(b); });
+  return row;
+}
+function appearancePanel(look, onChange){
+  ensureFonts(Object.values(FONTS));
+  const set = (k, v) => { look[k] = v; onChange(); paint(); };
+  const box = h('div', {class:'appear'});
+  const paint = () => {
+    box.replaceChildren(
+      h('div', {class:'asec'}, h('div', {class:'lab'}, 'Cover'), coverSwatches(look.cover, c => set('cover', c))),
+      h('div', {class:'asec'}, h('div', {class:'lab'}, 'Paper'), h('div', {class:'aswatches'}, Object.entries(PAPERS).map(([k, pp]) =>
+        h('button', {class:'sw', type:'button', title:pp.n, 'aria-label':pp.n+' paper', 'aria-pressed': look.paper===k ? 'true':'false', style:{background:pp.bg}, onclick:() => set('paper', k)})))),
+      h('div', {class:'asec'}, h('div', {class:'lab'}, 'Page'), h('div', {class:'aopts'}, PATTERNS.map(([k, n]) =>
+        h('button', {class:'aopt', type:'button', 'aria-pressed': look.pattern===k ? 'true':'false', onclick:() => set('pattern', k)},
+          h('span', {class:'apat pt-'+k, style:{'--surface':(PAPERS[look.paper]||PAPERS.white).bg, '--line':(PAPERS[look.paper]||PAPERS.white).muted}}), n)))),
+      h('div', {class:'asec'}, h('div', {class:'lab'}, 'Font'), h('div', {class:'aopts', style:{'--n':'5'}}, Object.entries(FONTS).map(([k, f]) =>
+        h('button', {class:'aopt', type:'button', 'aria-pressed': look.font===k ? 'true':'false', onclick:() => set('font', k)},
+          h('span', {class:'afont', style:{fontFamily:f.head, fontWeight:String(f.hw)}}, 'Aa'), f.n)))));
+  };
+  paint();
+  return box;
+}
+
+/* ============ Templates (blocks top to bottom + free decorations) ============ */
+const B = (type, props={}) => ({type, ...props});
+const items = (...a) => a.map(t => typeof t==='string' ? {t, d:0} : {t:t[0], d:1});
+const TEMPLATES = [
+  {id:'weekly', name:'Weekly planner', icon:'spiral-calendar', tint:'sky', folder:'everyday', tags:['week','schedule','habits'], pages:[{name:'{week}', blocks:[
+    B('heading',{text:'{week}',size:'h1'}), B('text',{text:'{range}'}),
+    B('week',{cells:['Gym · legs','Groceries','Dentist 16:30','Gym · upper body','Pizza night','Beach walk','Plan next week','']}),
+    B('habit',{title:'Habits',days:7,rows:[{n:'Read 20 min',d:[1,1,0,1]},{n:'Stretch',d:[1,0,1]},{n:'No sugar',d:[1,1,1]}]}),
+    B('note',{text:'Top 3 this week:\n1.\n2.\n3.',color:'yellow'})
+  ], deco:[{kind:'tape',color:'#9FD3C7',pattern:'stripes',x:600,y:-16,w:190,h:40,r:4},{kind:'sticker',name:'spiral-calendar',x:850,y:30,w:95,r:8}]}]},
+  {id:'training', name:'Training planner', icon:'person-lifting-weights', tint:'sand', folder:'sport', tags:['gym','workout','strength','fitness','dance'], pages:[
+    {name:'Session', blocks:[
+      B('heading',{text:'Session · {date}',size:'h1'}),
+      B('checklist',{title:'Warm-up',items:items('5 min skipping','Hip openers','Shoulder circles')}),
+      B('table',{cols:['Exercise','Sets','Reps','kg'],rows:[['Squat','5','5','80'],['Bench press','5','5','60'],['Deadlift','3','5','100'],['','','','']]}),
+      B('counter',{label:'Water · 250 ml glasses',count:8,filled:3,icon:'droplet'}),
+      B('note',{text:'',color:'yellow'})
+    ], deco:[{kind:'sticker',name:'flexed-biceps',x:860,y:20,w:90,r:10}]},
+    {name:'Weekly split', blocks:[
+      B('heading',{text:'Weekly split',size:'h1'}),
+      B('table',{cols:['Day','Focus','Notes'],rows:[['Mon','Legs',''],['Tue','Push',''],['Wed','Rest / walk',''],['Thu','Pull',''],['Fri','Full body',''],['Sat','Cardio',''],['Sun','Rest','']]}),
+      B('habit',{title:'Trained this week',days:7,rows:[{n:'Workout',d:[]},{n:'Sleep 8 h',d:[]}]})
+    ], deco:[]}
+  ]},
+  {id:'food', name:'Food notes', icon:'green-salad', tint:'sage', folder:'food', tags:['meals','nutrition','shopping','diet','healthy'], pages:[{name:'This week', blocks:[
+    B('heading',{text:'Meals · {range}',size:'h1'}),
+    B('table',{cols:['Day','Breakfast','Lunch','Dinner'],rows:[['Mon','Oats + berries','Paella','Salad + tuna'],['Tue','Yogurt 200 g','Lentil soup','Omelette'],['Wed','','',''],['Thu','','',''],['Fri','','','']]}),
+    B('checklist',{title:'Shopping list',items:items(['Tomatoes 500 g'],'Chicken 1 kg','Rice 1 kg','Spinach')}),
+    B('counter',{label:'Water · 250 ml glasses',count:8,filled:2,icon:'droplet'}),
+    B('note',{text:'Try: roasted peppers with feta, 25 min at 200 °C',color:'green'})
+  ], deco:[{kind:'sticker',name:'avocado',x:870,y:24,w:80,r:-8},{kind:'tape',color:'#F2D16B',pattern:'dots',x:30,y:-16,w:170,h:36,r:-5}]}]},
+  {id:'study', name:'Study planner', icon:'books', tint:'lilac', folder:'studying', tags:['school','exam','university','homework','notes'], pages:[{name:'Exam prep', blocks:[
+    B('heading',{text:'Exam prep',size:'h1'}),
+    B('table',{cols:['Subject','Topic','Hours','Done'],rows:[['Maths','Derivatives','3',''],['English','Essay draft','2','✓'],['Physics','Kinematics','2','']]}),
+    B('checklist',{title:'To do',items:items(['Past paper 2025'],'Flashcards: chapter 3','Revise formulas')}),
+    B('note',{text:'Pomodoro: 25 min focus, 5 min break',color:'blue'}),
+    B('heading',{text:'Mind map',size:'h2'}), B('canvas',{size:'m',bg:'dots'})
+  ], deco:[{kind:'sticker',name:'graduation-cap',x:860,y:16,w:90,r:-8}]}]},
+  {id:'daily', name:'Daily page', icon:'sun', tint:'butter', folder:'everyday', tags:['day','priorities','mood','journal'], pages:[{name:'{weekday}', blocks:[
+    B('heading',{text:'{weekday}, {date}',size:'h1'}),
+    B('checklist',{title:'Top priorities',items:items('','','')}),
+    B('mood',{label:'Mood',pick:-1}),
+    B('counter',{label:'Water · 250 ml glasses',count:8,filled:0,icon:'droplet'}),
+    B('text',{text:''}), B('canvas',{size:'s',bg:'dots'})
+  ], deco:[{kind:'sticker',name:'sun',x:880,y:20,w:80,r:0}]}]},
+  {id:'habits', name:'Habit tracker', icon:'bullseye', tint:'rose', folder:'everyday', tags:['habits','routine','month','streak'], pages:[{name:'{month}', blocks:[
+    B('heading',{text:'{month}',size:'h1'}),
+    B('habit',{title:'Every day',days:31,rows:[{n:'Wake 07:00',d:[]},{n:'Workout',d:[]},{n:'Read',d:[]},{n:'Water 2 L',d:[]},{n:'No phone in bed',d:[]}]}),
+    B('note',{text:'Reward if I hit 25 days: ',color:'pink'})
+  ], deco:[{kind:'sticker',name:'bullseye',x:880,y:20,w:80,r:0}]}]},
+  {id:'chores', name:'Household chores', icon:'broom', tint:'sky', folder:'everyday', tags:['home','cleaning','chores','weekly'], pages:[{name:'This week', blocks:[
+    B('heading',{text:'Household chores',size:'h1'}),
+    B('habit',{title:'Done on',days:7,rows:[{n:'Dishes',d:[]},{n:'Laundry',d:[]},{n:'Vacuum',d:[]},{n:'Bins out',d:[]},{n:'Plants',d:[]}]}),
+    B('checklist',{title:'One-off jobs',items:items('Fix the tap','Descale the kettle')})
+  ], deco:[{kind:'sticker',name:'broom',x:870,y:20,w:84,r:-10}]}]},
+  {id:'sketch', name:'Sketchbook', icon:'artist-palette', tint:'sand', folder:'everyday', tags:['drawing','sketch','doodle','canvas','ideas'], pages:[{name:'Sketch 1', blocks:[
+    B('heading',{text:'Sketches',size:'h1'}), B('canvas',{size:'l',bg:'plain'}), B('text',{text:''})
+  ], deco:[]}]},
+  {id:'lecture', name:'Lecture notes', icon:'memo', tint:'lilac', folder:'studying', tags:['lecture','class','notes','diagram'], pages:[{name:'Lecture 1', blocks:[
+    B('heading',{text:'Lecture title',size:'h1'}), B('text',{text:'{date} · Course'}),
+    B('heading',{text:'Notes',size:'h2'}), B('text',{text:''}),
+    B('heading',{text:'Diagrams',size:'h2'}), B('canvas',{size:'m',bg:'grid'}),
+    B('heading',{text:'Summary',size:'h2'}), B('note',{text:'',color:'blue'})
+  ], deco:[]}]},
+  {id:'packing', name:'Packing list', icon:'luggage', tint:'sage', folder:'everyday', tags:['travel','trip','holiday','checklist'], pages:[{name:'Packing', blocks:[
+    B('heading',{text:'Packing list',size:'h1'}),
+    B('checklist',{title:'Clothes',items:items('T-shirts × 4','Jeans','Light jacket','Swimwear')}),
+    B('checklist',{title:'Documents & tech',items:items('Passport','Boarding pass','Charger + adapter')}),
+    B('note',{text:'Leave for the airport at 07:30',color:'yellow'})
+  ], deco:[{kind:'sticker',name:'airplane',x:860,y:20,w:90,r:-12}]}]},
+  {id:'budget', name:'Monthly budget', icon:'money-bag', tint:'sage', folder:'everyday', tags:['money','finance','expenses','savings'], pages:[{name:'{month}', blocks:[
+    B('heading',{text:'Budget · {month}',size:'h1'}),
+    B('table',{cols:['Category','Planned €','Spent €'],rows:[['Rent','',''],['Groceries','',''],['Transport','',''],['Eating out','',''],['Savings','','']]}),
+    B('checklist',{title:'Bills paid',items:items('Rent','Electricity','Internet','Phone')})
+  ], deco:[{kind:'sticker',name:'money-bag',x:870,y:20,w:84,r:6}]}]},
+  {id:'gratitude', name:'Gratitude journal', icon:'red-heart', tint:'rose', folder:'everyday', tags:['journal','reflection','mood','mindfulness'], pages:[{name:'{date}', blocks:[
+    B('heading',{text:'{weekday}, {date}',size:'h1'}),
+    B('heading',{text:'Three things I\'m grateful for',size:'h2'}), B('text',{text:''}),
+    B('heading',{text:'One thing that went well',size:'h2'}), B('text',{text:''}),
+    B('mood',{label:'Today felt',pick:-1})
+  ], deco:[{kind:'sticker',name:'cherry-blossom',x:880,y:20,w:76,r:10}]}]}
+];
+function instantiate(t){
+  const today = ymd(new Date());
+  const pages = t.pages.map(pg => ({id:uid(), name:tokens(pg.name, today), date:today,
+    blocks: pg.blocks.map(b => { const c = clone(b); c.id = uid(); if (c.text) c.text = tokens(c.text, today); return c; }),
+    deco: (pg.deco||[]).map(d => ({...clone(d), id:uid()}))}));
+  return {id:uid(), v:2, title:t.name, icon:t.icon, look:{...OLD_STYLE_LOOK[TEMPLATE_LOOK[t.id]] || DEFAULT_LOOK}, folder:t.folder, pages, createdAt:Date.now(), updatedAt:Date.now()};
+}
+
+/* ============ Storage: your account (db capability), browser as fallback ============ */
+const Store = {
+  mode:'local', base:null, col:null, timers:{}, chains:{}, inkTimers:{}, metaTimer:null,
+  async init(){
+    if (window.FolioBackend){
+      try{ const r = await window.FolioBackend.connect(); if (r){ Object.assign(this, r); this.mode = 'cloud'; this.hosted = true; } }
+      catch(e){ this.mode = 'local'; this.backendError = (e && e.message) || String(e); }
+      return;
+    }
+    const c = window.claude;
+    if (!c || typeof c.use !== 'function') return;
+    try{
+      const [db, user] = await Promise.all([c.use('db'), c.use('user')]);
+      if (!db || !user) return;
+      const id = await user.id(); if (!id) return;
+      this.base = db.doc('data/users/'+id+'/app');
+      this.col = this.base.collection('planners');
+      this.mode = 'cloud';
+      try{ this.assets = await c.use('assets'); }catch(e){ this.assets = null; }
+    }catch(e){ this.mode = 'local'; }
+  },
+  lsGet(k){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; }catch(e){ return null; } },
+  lsSet(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); return true; }catch(e){ return false; } },
+  lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} },
+  async load(){
+    if (this.mode==='cloud'){
+      try{
+        const [m, list] = await Promise.all([this.base.get(), this.col.get()]);
+        return {meta: m.exists ? clone(m.data()) : null, planners: list.docs.filter(d => d.exists).map(d => clone(d.data()))};
+      }catch(e){ this.mode = 'local'; this.backendError = 'couldn’t reach your account, so changes are kept in this browser for now.'; }
+    }
+    return {meta:this.lsGet('folio.meta'), planners:Object.values(this.lsGet('folio.planners')||{})};
+  },
+  chain(key, fn){
+    this.chains[key] = (this.chains[key]||Promise.resolve()).then(fn).then(() => setStatus('saved')).catch(e => setStatus('error', e));
+  },
+  localPlanners(){ const o = {}; for (const [id,p] of S.planners) o[id] = p; if (!this.lsSet('folio.planners', o)) throw {message:'browser storage is full or blocked'}; },
+  savePlanner(p, now){
+    clearTimeout(this.timers[p.id]); setStatus('saving');
+    const run = () => { delete this.timers[p.id]; const pl = S.planners.get(p.id); if (!pl) return; const body = clone(pl);
+      if (JSON.stringify(body).length > 250000) return setStatus('error', {message:'this planner is too big — split it into two'});
+      this.chain(p.id, () => this.mode==='cloud' ? this.col.doc(p.id).set(body) : this.localPlanners()); };
+    if (now) run(); else this.timers[p.id] = setTimeout(run, 600);
+  },
+  deletePlanner(p){
+    clearTimeout(this.timers[p.id]); delete this.timers[p.id];
+    this.chain(p.id, async () => {
+      if (this.mode==='cloud'){ await this.col.doc(p.id).delete(); for (const pg of p.pages||[]) if (pg.id) await this.col.doc(p.id).collection('ink').doc(pg.id).delete(); }
+      else { this.localPlanners(); (p.pages||[]).forEach(pg => this.lsDel('folio.ink.'+pg.id)); }
+    });
+  },
+  saveMeta(){
+    clearTimeout(this.metaTimer); setStatus('saving');
+    this.metaTimer = setTimeout(() => { const body = clone(S.meta);
+      this.chain('__meta', () => this.mode==='cloud' ? this.base.set(body) : (this.lsSet('folio.meta', body) ? null : Promise.reject({message:'browser storage is blocked'}))); }, 250);
+  },
+  async loadInk(pid, pgid){
+    if (this.mode==='cloud'){ try{ const s = await this.col.doc(pid).collection('ink').doc(pgid).get(); return s.exists ? clone(s.data()) : null; }catch(e){ return null; } }
+    return this.lsGet('folio.ink.'+pgid);
+  },
+  saveInk(pid, pgid, data){
+    clearTimeout(this.inkTimers[pgid]); setStatus('saving');
+    this.inkTimers[pgid] = setTimeout(() => {
+      delete this.inkTimers[pgid];
+      const body = clone(data);
+      if (JSON.stringify(body).length > 250000) return setStatus('error', {message:'the drawing on this page is too big — clear some strokes or draw on a new page'});
+      this.chain('ink'+pgid, () => this.mode==='cloud' ? this.col.doc(pid).collection('ink').doc(pgid).set(body) : (this.lsSet('folio.ink.'+pgid, body) ? null : Promise.reject({message:'browser storage is full'})));
+    }, 700);
+  },
+  deleteInk(pid, pgid){ this.chain('ink'+pgid, () => this.mode==='cloud' ? this.col.doc(pid).collection('ink').doc(pgid).delete() : this.lsDel('folio.ink.'+pgid)); },
+  flush(){ for (const id of Object.keys(this.timers)){ clearTimeout(this.timers[id]); delete this.timers[id]; this.savePlanner({id}, true); } }
+};
+document.addEventListener('visibilitychange', () => { if (document.hidden) Store.flush(); });
+
+/* ============ Migration from the first version (free-position layout) ============ */
+function migrate(p){
+  if (p.v === 2) return p;
+  const noteKey = c => ({'#FFC9C4':'pink','#C6EDD5':'green','#CDE1FF':'blue','#E4D6FF':'lilac'})[c] || 'yellow';
+  const f = 1000/600;
+  const pages = (p.pages||[]).map((pg, i) => {
+    const blocks = [], deco = [];
+    for (const el of [...(pg.els||[])].sort((a,b) => (a.y-b.y) || (a.x-b.x))){
+      const q = el.props || {};
+      switch (el.type){
+        case 'sticker': deco.push({id:uid(), kind:'sticker', name:q.name, x:el.x*f, y:el.y*f, w:el.w*f, r:el.rot||0}); break;
+        case 'tape': deco.push({id:uid(), kind:'tape', color:q.color, pattern:q.pattern, x:el.x*f, y:el.y*f, w:el.w*f, h:el.h*f, r:el.rot||0}); break;
+        case 'heading': blocks.push({id:uid(), type:'heading', text:tokens(q.text, pg.date), size:(q.size||30) >= 26 ? 'h1' : 'h2'}); break;
+        case 'text': blocks.push({id:uid(), type:'text', text:q.text||''}); break;
+        case 'note': blocks.push({id:uid(), type:'note', text:tokens(q.text, pg.date), color:noteKey(q.color)}); break;
+        case 'checklist': blocks.push({id:uid(), type:'checklist', title:q.title, items:(q.items||[]).map(x => ({t:x.t, d:x.d?1:0}))}); break;
+        case 'table': blocks.push({id:uid(), type:'table', cols:q.cols, rows:q.rows}); break;
+        case 'habits': blocks.push({id:uid(), type:'habit', title:'Habits', days:q.days===7 ? 7 : 31, rows:(q.habits||[]).map(x => ({n:x.n, d:x.d||[]}))}); break;
+        case 'tracker': blocks.push({id:uid(), type:'counter', label:q.label, count:q.count, filled:q.filled, icon:q.icon}); break;
+        case 'mood': blocks.push({id:uid(), type:'mood', label:q.label, pick:q.pick}); break;
+        case 'week': blocks.push({id:uid(), type:'week', cells:q.cells||[]}); break;
+        case 'divider': blocks.push({id:uid(), type:'divider'}); break;
+      }
+    }
+    return {id:pg.id||uid(), name:'Page '+(i+1), date:pg.date||ymd(new Date()), blocks, deco};
+  });
+  const firstSticker = pages[0]?.deco.find(d => d.kind==='sticker');
+  return {id:p.id, v:2, title:p.title||'Planner', icon:firstSticker?.name||'notebook', look:{...DEFAULT_LOOK}, folder:p.folder||null, pages, isTemplate:p.isTemplate, createdAt:p.createdAt, updatedAt:p.updatedAt};
+}
+
+/* ============ State ============ */
+const S = {meta:null, planners:new Map(), editing:false, view:'lib', folder:'all', q:'', openId:null, pageId:null, sheet:null, picker:null, draw:false,
+  tool:{kind:'pen', color:'ink', hl:'hy', size:2}, penSeen:false, ink:new Map(), selDeco:null, focusBlock:null, status:'saved', statusMsg:''};
+function setStatus(s, err){
+  S.status = s;
+  S.statusMsg = err ? (err.code==='invalid_argument' ? 'this account can’t change the saved data' : err.code==='quota_exceeded' ? 'storage is full — delete a planner' : (err.message||'try again')) : '';
+  document.querySelectorAll('.status').forEach(paintStatus);
+}
+function paintStatus(n){
+  n.className = 'status ' + (S.status==='saving' ? 'saving' : S.status==='error' ? 'error' : '');
+  n.textContent = S.status==='saving' ? 'Saving…' : S.status==='error' ? 'Not saved: '+S.statusMsg : 'Saved';
+  n.title = Store.mode==='cloud' ? (Store.hosted ? 'Saved to your Folio account' : 'Saved to your Claude account') : 'Saved in this browser';
+}
+const statusNode = () => { const n = h('span', {class:'status', role:'status'}); paintStatus(n); return n; };
+const folders = () => S.meta.folders;
+const folderName = id => folders().find(f => f.id===id)?.name || '';
+const shelf = () => [...S.planners.values()].filter(p => !p.isTemplate);
+const cur = () => S.planners.get(S.openId);
+const curPage = () => cur()?.pages.find(p => p.id===S.pageId);
+function touch(){ const p = cur(); if (!p) return; p.updatedAt = Date.now(); Store.savePlanner(p); Hist.note(); }
+
+/* ============ Undo / redo for the open planner (Ctrl/⌘+Z, Ctrl/⌘+Shift+Z) ============ */
+// Every change is grouped: a burst of edits (typing a word, dragging a sticker) becomes one step.
+const HIST_FIELDS = ['title','icon','folder','look','pages'];
+const Hist = {
+  stack:[], redo:[], last:null, timer:null, restoring:false,
+  snap(){
+    const p = cur(); if (!p) return null;
+    const o = {}; for (const k of HIST_FIELDS) o[k] = p[k];
+    o.ink = {}; for (const pg of p.pages) if (S.ink.has(pg.id)) o.ink[pg.id] = S.ink.get(pg.id);
+    return JSON.stringify(o);
+  },
+  reset(){ clearTimeout(this.timer); this.stack = []; this.redo = []; this.last = this.snap(); this.paint(); },
+  note(){ if (this.restoring || !this.last) return; clearTimeout(this.timer); this.timer = setTimeout(() => this.commit(), 450); },
+  commit(){
+    clearTimeout(this.timer); this.timer = null;
+    const now = this.snap(); if (!now || now === this.last) return;
+    this.stack.push(this.last); if (this.stack.length > 100) this.stack.shift();
+    this.redo = []; this.last = now; this.paint();
+  },
+  // A page's drawing loads after the planner opens; add it to older steps so undo never erases it.
+  addInk(pgid, ink){
+    const fix = str => { if (!str) return str; const o = JSON.parse(str); if (!(pgid in o.ink)){ o.ink[pgid] = ink; return JSON.stringify(o); } return str; };
+    this.last = fix(this.last); this.stack = this.stack.map(fix); this.redo = this.redo.map(fix);
+  },
+  undo(){ this.commit(); if (!this.stack.length){ toast('Nothing to undo.'); return; } this.redo.push(this.last); this.apply(this.stack.pop()); },
+  redoStep(){ this.commit(); if (!this.redo.length){ toast('Nothing to redo.'); return; } this.stack.push(this.last); this.apply(this.redo.pop()); },
+  apply(str){
+    const p = cur(); if (!p) return;
+    const o = JSON.parse(str), before = JSON.parse(this.snap());
+    this.restoring = true;
+    for (const k of HIST_FIELDS){ if (o[k] === undefined) delete p[k]; else p[k] = o[k]; }
+    for (const id in o.ink){ if (JSON.stringify(o.ink[id]) !== JSON.stringify(before.ink[id])){ S.ink.set(id, o.ink[id]); Store.saveInk(p.id, id, o.ink[id]); } }
+    p.updatedAt = Date.now(); Store.savePlanner(p);
+    this.last = str; this.restoring = false;
+    if (!p.pages.some(pg => pg.id===S.pageId)) S.pageId = p.pages[0].id;
+    setDraw(false, true); closePicker(); closeMenu(); S.selDeco = null;
+    renderEditor(); this.paint();
+  },
+  paint(){
+    const u = $('#undoBtn'), r = $('#redoBtn');
+    if (u) u.disabled = !this.stack.length && !this.timer;
+    if (r) r.disabled = !this.redo.length;
+  }
+};
+document.addEventListener('keydown', e => {
+  if (S.view!=='ed' || S.sheet || !(e.metaKey || e.ctrlKey) || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k!=='z' && k!=='y') return;
+  if (e.target.closest && e.target.closest('.menu, .picker')) return;
+  e.preventDefault(); e.stopPropagation();
+  if (k==='y' || e.shiftKey) Hist.redoStep(); else Hist.undo();
+}, true);
+
+/* ============ Menus & toast ============ */
+function closeMenu(){ document.querySelector('.menu')?.remove(); }
+function openMenu(anchor, build){
+  closeMenu();
+  const m = h('div', {class:'menu', role:'menu'}); build(m);
+  document.body.append(m);
+  const r = anchor.getBoundingClientRect(), mw = m.offsetWidth, mh = m.offsetHeight;
+  m.style.left = clamp(r.left, 12, innerWidth - mw - 12)+'px';
+  m.style.top = (r.bottom + mh + 8 > innerHeight ? Math.max(12, r.top - mh - 6) : r.bottom + 6)+'px';
+  const off = e => { if (!m.isConnected || !m.contains(e.target)){ m.remove(); document.removeEventListener('pointerdown', off, true); } };
+  setTimeout(() => document.addEventListener('pointerdown', off, true));
+}
+const mi = (label, fn, cls) => h('button', {class:'mi'+(cls?' '+cls:''), type:'button', role:'menuitem', onclick:() => { closeMenu(); fn(); }}, label);
+let toastTimer;
+function toast(msg, undo){
+  document.querySelector('.toast')?.remove(); clearTimeout(toastTimer);
+  const t = h('div', {class:'toast', role:'status'}, h('span', {}, msg), undo ? h('button', {type:'button', onclick:() => { t.remove(); undo(); }}, 'Undo') : null);
+  document.body.append(t); toastTimer = setTimeout(() => t.remove(), 6000);
+}
+
+/* ============ Shelf ============ */
+function render(){ closeMenu(); S.view==='lib' ? renderShelf() : renderEditor(); }
+function renderShelf(){
+  document.body.classList.remove('drawing');
+  const app = $('#app'); app.replaceChildren();
+  const search = h('input', {class:'input search', id:'shelfSearch', type:'search', placeholder:'Search', value:S.q, 'aria-label':'Search planners'});
+  const grid = h('div', {class:'grid'});
+  search.addEventListener('input', () => { S.q = search.value; fillGrid(grid); });
+  const chips = h('div', {class:'chips', role:'group', 'aria-label':'Folders'},
+    h('button', {class:'chip', type:'button', 'aria-pressed': S.folder==='all' ? 'true':'false', onclick:() => { S.folder = 'all'; renderShelf(); }}, 'All'),
+    folders().map(f => { const fc = fcol(f); return h('button', {class:'chip fchip', type:'button', style:{'--fc':fc.c, '--fci':fc.i}, 'aria-pressed': S.folder===f.id ? 'true':'false', onclick:() => { S.folder = f.id; renderShelf(); }}, h('span', {class:'fdot', 'aria-hidden':'true'}), f.name); }));
+  const addBtn = h('button', {class:'addfold', type:'button', title:'New folder', 'aria-label':'New folder', onclick:e => folderForm(e.currentTarget)}, '+');
+  const fmenu = S.folder!=='all' ? h('button', {class:'btn ghost', type:'button', 'aria-label':'Folder options', title:'Rename, recolour or delete this folder', onclick:e => folderForm(e.currentTarget, folders().find(f => f.id===S.folder))}, '⋯') : null;
+  app.append(h('div', {class:'shelf-wrap'},
+    h('div', {class:'shelf-top'}, h('h1', {}, 'My planners'), search, statusNode(), h('button', {class:'btn ghost', type:'button', id:'shelfMenu', title:'Backup and account', 'aria-label':'Backup and account', onclick:e => shelfMenu(e.currentTarget)}, '⋯')),
+    h('div', {class:'folderbar'}, chips, addBtn, h('span', {class:'spacer'}), fmenu),
+    grid, importInput(),
+    h('p', {class:'credit', style:{marginTop:'40px'}}, 'Stickers use your device’s emoji: Apple emoji on Mac, iPhone and iPad. Emoji search data: ', h('a', {href:'https://emojibase.dev', target:'_blank', rel:'noopener'}, 'Emojibase'), ' (MIT).')));
+  fillGrid(grid);
+  if (S.sheet) renderSheet();
+}
+function importInput(){ const i = h('input', {type:'file', id:'importFile', accept:'.json,application/json', hidden:true}); i.addEventListener('change', () => { if (i.files[0]) importBackup(i.files[0]); i.value = ''; }); return i; }
+function shelfMenu(anchor){
+  openMenu(anchor, m => {
+    if (Store.account) m.append(h('div', {class:'lab'}, 'Signed in as ' + Store.account));
+    if (Store.backendError) m.append(h('div', {class:'lab', style:{color:'var(--danger)', maxWidth:'260px'}}, 'Sync is off: ' + Store.backendError));
+    m.append(mi('Export backup', exportBackup), mi('Import backup', () => $('#importFile').click()));
+    if (Store.signOut) m.append(h('div', {class:'sep'}), mi('Sign out', () => Store.signOut()));
+  });
+}
+function blobToDataURL(b){ return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(b); }); }
+async function exportBackup(){
+  toast('Preparing backup…');
+  try{
+    Store.flush();
+    const planners = [...S.planners.values()].map(clone), ink = {}, images = {};
+    for (const p of planners){
+      for (const pg of p.pages){
+        const d = S.ink.get(pg.id) || await Store.loadInk(p.id, pg.id);
+        if (d && ((d.overlay||[]).length || Object.keys(d.blocks||{}).length)) ink[pg.id] = d;
+        for (const dc of pg.deco || []) if (dc.kind==='image' && dc.asset && !images[dc.asset]){
+          try{ const r = await fetch(picSrc(dc)); if (r.ok) images[dc.asset] = await blobToDataURL(await r.blob()); }catch(e){}
+        }
+      }
+    }
+    const json = JSON.stringify({folio:1, exportedAt:new Date().toISOString(), meta:S.meta, planners, ink, images});
+    const name = 'folio-backup-' + ymd(new Date()) + '.json';
+    const dl = window.claude && typeof window.claude.use==='function' ? await window.claude.use('downloads') : null;
+    if (dl){
+      try{ await dl.save({filename:name, data:new Blob([json], {type:'application/json'})}); toast('Backup saved: ' + planners.length + ' planners.'); }
+      catch(e){ if (e && e.code!=='declined') toast('Couldn’t save the backup here.'); }
+    } else {
+      const a = h('a', {href:URL.createObjectURL(new Blob([json], {type:'application/json'})), download:name});
+      document.body.append(a); a.click(); a.remove();
+      toast('Backup saved: ' + planners.length + ' planners.');
+    }
+  }catch(e){ toast('Couldn’t make the backup. Try again.'); }
+}
+async function importBackup(file){
+  let data;
+  try{ data = JSON.parse(await file.text()); }catch(e){ toast('That file isn’t a Folio backup.'); return; }
+  if (!data || data.folio!==1 || !Array.isArray(data.planners)){ toast('That file isn’t a Folio backup.'); return; }
+  toast('Importing ' + data.planners.length + ' planners…');
+  const newAsset = {};
+  for (const id in (data.images || {})){
+    try{
+      const blob = await (await fetch(data.images[id])).blob();
+      if (Store.assets){ const up = await Store.assets.upload(blob); newAsset[id] = {asset:up.id}; }
+      else { const {canvas} = await shrink(blob, 520, .82); newAsset[id] = {data:canvas.toDataURL('image/webp', .8)}; }
+    }catch(e){}
+  }
+  for (const f of (data.meta && data.meta.folders) || []) if (!folders().some(x => x.id===f.id)) folders().push(f);
+  Store.saveMeta();
+  for (const p of data.planners){
+    if (p.example && [...S.planners.values()].some(x => x.example && x.title===p.title && x.id!==p.id)) continue;   // don't duplicate the sample planners
+    for (const pg of p.pages || []) for (const dc of pg.deco || []) if (dc.kind==='image' && dc.asset){
+      const n = newAsset[dc.asset]; delete dc.asset; delete dc.data; if (n) Object.assign(dc, n);
+    }
+    const m = migrate(p); if (!m.look){ m.look = {...(OLD_STYLE_LOOK[m.style || TINT_STYLE[m.tint]] || DEFAULT_LOOK)}; delete m.style; delete m.tint; }
+    S.planners.set(m.id, m); Store.savePlanner(m, true);
+    for (const pg of m.pages) if (data.ink && data.ink[pg.id]){ S.ink.set(pg.id, data.ink[pg.id]); Store.saveInk(m.id, pg.id, data.ink[pg.id]); }
+  }
+  render();
+  toast('Imported ' + data.planners.length + ' planners.');
+}
+function folderForm(anchor, f){
+  const editing = !!f;
+  const draft = {name: f ? f.name : '', color: f ? fcol(f).c : FOLDER_COLORS[folders().length % FOLDER_COLORS.length].c};
+  openMenu(anchor, m => {
+    const inp = h('input', {class:'input', id:'folderName', value:draft.name, placeholder:'Folder name', maxlength:'30', 'aria-label':'Folder name'});
+    const err = h('div', {class:'credit', style:{color:'var(--danger)'}, hidden:true}, 'Enter a folder name');
+    const save = () => {
+      const name = inp.value.trim();
+      if (!name){ err.hidden = false; inp.focus(); return; }
+      if (editing){ f.name = name; f.color = draft.color; }
+      else { const nf = {id:uid(), name, color:draft.color}; folders().push(nf); S.folder = nf.id; }
+      Store.saveMeta(); closeMenu(); renderShelf();
+    };
+    inp.addEventListener('input', () => { err.hidden = true; });
+    inp.addEventListener('keydown', e => { if (e.key==='Enter'){ e.preventDefault(); save(); } });
+    const colors = h('div', {class:'fcolors', role:'radiogroup', 'aria-label':'Folder colour'}, FOLDER_COLORS.map(fc => {
+      const b = h('button', {class:'sw', type:'button', role:'radio', title:fc.n, 'aria-label':fc.n, 'aria-checked': draft.color===fc.c ? 'true':'false', 'aria-pressed': draft.color===fc.c ? 'true':'false', style:{background:fc.c}, onclick:() => {
+        draft.color = fc.c; colors.querySelectorAll('.sw').forEach(x => { const on = x===b; x.setAttribute('aria-pressed', on ? 'true':'false'); x.setAttribute('aria-checked', on ? 'true':'false'); });
+      }});
+      return b;
+    }));
+    const panel = h('div', {class:'fpanel'},
+      h('div', {class:'lab'}, editing ? 'Edit folder' : 'New folder'), inp, err,
+      h('div', {class:'lab'}, 'Colour'), colors,
+      h('div', {style:{display:'flex', gap:'8px', justifyContent:'flex-end'}},
+        h('button', {class:'btn ghost', type:'button', onclick:closeMenu}, 'Cancel'),
+        h('button', {class:'btn primary', type:'button', onclick:save}, editing ? 'Save' : 'Add folder')));
+    m.append(panel);
+    if (editing) m.append(h('div', {class:'sep'}), mi('Delete folder', () => {
+      const idx = folders().indexOf(f), moved = shelf().filter(p => p.folder===f.id);
+      folders().splice(idx, 1); moved.forEach(p => { p.folder = null; Store.savePlanner(p, true); }); Store.saveMeta(); S.folder = 'all'; renderShelf();
+      toast(`Folder “${f.name}” deleted. Its planners are still in All.`, () => { folders().splice(idx, 0, f); moved.forEach(p => { p.folder = f.id; Store.savePlanner(p, true); }); Store.saveMeta(); renderShelf(); });
+    }, 'danger'));
+    setTimeout(() => inp.focus(), 0);
+  });
+}
+function plannerCard(p, onOpen, opts={}){
+  const st = resolveLook(lookOf(p));
+  return h('button', {class:'pcard', type:'button', style:{'--tint':st.cover, '--cin':st.cin}, onclick:onOpen, 'aria-label':'Open '+p.title},
+    Stickers.node(p.icon||'notebook', 'stk ic'),
+    h('span', {}, h('span', {class:'t', style:{display:'block'}}, p.title), h('span', {class:'f', style:{display:'block'}}, opts.sub ?? (p.folder && folders().some(f => f.id===p.folder) ? h('span', {class:'fbadge', style:{'--fc':fcol(folders().find(f => f.id===p.folder)).c}}, h('i', {}), folderName(p.folder)) : 'No folder')), p.example ? h('span', {class:'tag'}, 'Example') : null));
+}
+function fillGrid(grid){
+  grid.replaceChildren(h('button', {class:'newcard', type:'button', onclick:() => openSheet()}, h('span', {class:'plus', 'aria-hidden':'true'}, '+'), 'New planner'));
+  const q = S.q.trim().toLowerCase();
+  let list = shelf().filter(p => S.folder==='all' || p.folder===S.folder);
+  if (q) list = list.filter(p => (p.title+' '+folderName(p.folder)+' '+p.pages.map(x => x.name).join(' ')).toLowerCase().includes(q));
+  list.sort((a,b) => (b.updatedAt||0)-(a.updatedAt||0));
+  for (const p of list){
+    const more = h('button', {class:'more', type:'button', 'aria-label':'Options for '+p.title, onclick:e => cardMenu(e.currentTarget, p)}, '⋯');
+    grid.append(h('div', {class:'cardwrap'}, plannerCard(p, () => openPlanner(p.id)),
+      h('div', {class:'meta'}, h('span', {}, `${p.pages.length} page${p.pages.length>1?'s':''}`), more)));
+  }
+  if (!list.length && (q || S.folder!=='all')) grid.append(h('p', {class:'empty'}, q ? 'No planners match that search.' : 'Nothing in this folder yet. Tap “New planner” to make one here.'));
+}
+function cardMenu(anchor, p){
+  openMenu(anchor, m => {
+    const sel = h('select', {class:'input', 'aria-label':'Folder', style:{margin:'0 6px 6px', width:'auto'}}, h('option', {value:''}, 'No folder'), folders().map(f => h('option', {value:f.id, selected: p.folder===f.id ? true : null}, f.name)));
+    sel.addEventListener('change', () => { p.folder = sel.value || null; Store.savePlanner(p, true); closeMenu(); renderShelf(); });
+    m.append(mi('Open', () => openPlanner(p.id)), mi('Edit layout', () => openPlanner(p.id, true)),
+      mi('Duplicate', () => { const d = clone(p); d.id = uid(); d.title += ' (copy)'; delete d.example; d.pages.forEach(pg => pg.id = uid()); d.createdAt = d.updatedAt = Date.now(); S.planners.set(d.id, d); Store.savePlanner(d, true); renderShelf(); }),
+      h('div', {class:'lab'}, 'Folder'), sel, h('div', {class:'sep'}),
+      mi('Delete', () => deletePlanner(p.id), 'danger'));
+  });
+}
+function deletePlanner(id){
+  const p = S.planners.get(id); if (!p) return;
+  S.planners.delete(id); Store.deletePlanner(p);
+  if (S.view==='lib') renderShelf();
+  if (S.sheet) renderSheet();
+  toast(`Deleted “${p.title}”.`, () => { S.planners.set(id, p); Store.savePlanner(p, true); for (const pg of p.pages){ const ink = S.ink.get(pg.id); if (ink) Store.saveInk(p.id, pg.id, ink); } render(); });
+}
+
+/* ============ New planner sheet ============ */
+function openSheet(){ S.sheet = {step:'choose', q:'', cat:'all', title:'', icon:'notebook', look:{...DEFAULT_LOOK}, folder: S.folder!=='all' ? S.folder : null}; renderSheet(); }
+function closeSheet(){ S.sheet = null; document.querySelector('.scrim')?.remove(); }
+document.addEventListener('keydown', e => { if (e.key!=='Escape') return; if (S.picker) closePicker(); else if (S.sheet) closeSheet(); else if (S.draw) setDraw(false); });
+function renderSheet(){
+  document.querySelector('.scrim')?.remove();
+  const s = S.sheet; if (!s) return;
+  const scrim = h('div', {class:'scrim', onclick:e => { if (e.target===scrim) closeSheet(); }});
+  const body = h('div', {class:'sheet-body'});
+  const title = {choose:'New planner', tpl:'Templates', blank:'Blank planner'}[s.step];
+  scrim.append(h('div', {class:'sheet', role:'dialog', 'aria-modal':'true', 'aria-label':title},
+    h('div', {class:'sheet-head'}, s.step!=='choose' ? h('button', {class:'btn ghost', type:'button', 'aria-label':'Back', onclick:() => { s.step = 'choose'; renderSheet(); }}, '←') : null,
+      h('h2', {}, title), h('button', {class:'btn ghost', type:'button', 'aria-label':'Close', onclick:closeSheet}, '✕')), body));
+  if (s.step==='choose'){
+    body.append(h('div', {class:'choices'},
+      h('button', {class:'choice', type:'button', style:{'--tint':'var(--sand)'}, onclick:() => { s.step = 'blank'; renderSheet(); }}, Stickers.node('pencil','stk ic'),
+        h('span', {}, h('b', {}, 'From scratch'), h('span', {class:'muted'}, 'An empty page. Add headings, lists, notes, drawings and stickers.'))),
+      h('button', {class:'choice', type:'button', style:{'--tint':'var(--sky)'}, onclick:() => { s.step = 'tpl'; renderSheet(); }}, Stickers.node('spiral-calendar','stk ic'),
+        h('span', {}, h('b', {}, 'From a template'), h('span', {class:'muted'}, `${TEMPLATES.length} ready planners: week, training, food, study, sketchbook and more.`)))));
+  } else if (s.step==='tpl'){
+    const search = h('input', {class:'input', id:'tplSearch', type:'search', placeholder:'Search: gym, week, meals, drawing…', value:s.q, 'aria-label':'Search templates'});
+    const grid = h('div', {class:'tplgrid'});
+    const cats = [{id:'all', name:'All'}, ...DEFAULT_FOLDERS, {id:'mine', name:'My templates'}];
+    const fill = () => {
+      grid.replaceChildren();
+      const toks = s.q.toLowerCase().split(/\s+/).filter(Boolean);
+      const mine = [...S.planners.values()].filter(p => p.isTemplate).map(p => ({mine:true, src:p, name:p.title, icon:p.icon, look:lookOf(p), folder:p.folder, tags:['mine'], pages:p.pages}));
+      let list = s.cat==='mine' ? mine : [...TEMPLATES, ...(s.cat==='all' ? mine : [])];
+      if (s.cat!=='all' && s.cat!=='mine') list = list.filter(t => t.folder===s.cat);
+      if (toks.length) list = list.filter(t => { const hay = (t.name+' '+t.tags.join(' ')).toLowerCase(); return toks.every(k => hay.includes(k) || (SYN[k]||[]).some(x => hay.includes(x))); });
+      for (const t of list){
+        const kinds = [...new Set(t.pages.flatMap(pg => pg.blocks.map(b => BLOCK_NAMES[b.type])))].filter(Boolean).slice(0,4).join(' · ');
+        const card = plannerCard({title:t.name, icon:t.icon, look:t.mine ? t.look : OLD_STYLE_LOOK[TEMPLATE_LOOK[t.id]]}, () => createFrom(t), {sub: kinds});
+        if (t.mine) grid.append(h('div', {class:'cardwrap'}, card, h('div', {class:'meta'}, h('span', {}, 'My template'), h('button', {class:'more', type:'button', 'aria-label':'Delete template '+t.name, onclick:() => deletePlanner(t.src.id)}, '✕'))));
+        else grid.append(card);
+      }
+      if (!list.length) grid.append(h('p', {class:'empty'}, s.cat==='mine' ? 'No templates of your own yet. In any planner, open a page’s ⋯ menu and choose “Save planner as template”.' : 'Nothing matches. Try another word.'));
+    };
+    search.addEventListener('input', () => { s.q = search.value; fill(); });
+    body.append(search, h('div', {class:'chips', style:{marginTop:'12px'}}, cats.map(c => h('button', {class:'chip', type:'button', 'aria-pressed': s.cat===c.id ? 'true':'false', onclick:() => { s.cat = c.id; renderSheet(); }}, c.name))), grid);
+    fill(); if (matchMedia('(pointer:fine)').matches) setTimeout(() => search.focus(), 0);
+  } else {
+    const ti = h('input', {class:'input', id:'blankTitle', placeholder:'e.g. Dance training', value:s.title, maxlength:'60'});
+    ti.addEventListener('input', () => s.title = ti.value);
+    const fs = h('select', {class:'input', id:'blankFolder'}, h('option', {value:''}, 'No folder'), folders().map(f => h('option', {value:f.id, selected: s.folder===f.id ? true : null}, f.name)));
+    fs.addEventListener('change', () => s.folder = fs.value || null);
+    body.append(h('div', {class:'form'},
+      h('div', {}, h('label', {class:'l', for:'blankTitle'}, 'Name'), ti),
+      h('div', {}, h('span', {class:'l'}, 'Icon'), h('div', {class:'iconrow'}, ICON_CHOICES.map(n => h('button', {class:'iconpick', type:'button', 'aria-label':n.replace(/-/g,' '), 'aria-pressed': s.icon===n ? 'true':'false', onclick:() => { s.icon = n; renderSheet(); }}, Stickers.node(n))))),
+      h('div', {}, h('span', {class:'l'}, 'Cover colour'), coverSwatches(s.look.cover, c => { s.look.cover = c; }), h('p', {class:'credit', style:{marginTop:'6px'}}, 'Paper, page lines and font are in Appearance, inside the planner.')),
+      h('div', {}, h('label', {class:'l', for:'blankFolder'}, 'Folder'), fs),
+      h('div', {}, h('button', {class:'btn primary', type:'button', onclick:() => {
+        const title = s.title.trim() || 'Untitled planner';
+        const p = {id:uid(), v:2, title, icon:s.icon, look:{...s.look}, folder:s.folder, pages:[{id:uid(), name:'Page 1', date:ymd(new Date()), blocks:[{id:uid(), type:'heading', text:title, size:'h1'}, {id:uid(), type:'text', text:''}], deco:[]}], createdAt:Date.now(), updatedAt:Date.now()};
+        S.planners.set(p.id, p); Store.savePlanner(p, true); closeSheet(); openPlanner(p.id, true);
+      }}, 'Create planner'))));
+  }
+  document.body.append(scrim);
+}
+function createFrom(t){
+  let p;
+  if (t.mine){ p = clone(t.src); p.id = uid(); delete p.isTemplate; const today = ymd(new Date()); p.pages.forEach(pg => { pg.id = uid(); pg.date = today; }); p.createdAt = p.updatedAt = Date.now(); }
+  else p = instantiate(t);
+  if (S.folder!=='all') p.folder = S.folder;
+  else if (!folders().some(f => f.id===p.folder)) p.folder = null;
+  S.planners.set(p.id, p); Store.savePlanner(p, true); closeSheet(); openPlanner(p.id, true);
+}
+
+/* ============ Editor ============ */
+const LIST_MARKERS = [{id:'num', n:'Numbers', ch:'1.'}, {id:'dot', n:'Dots', ch:'●'}, {id:'heart', n:'Hearts', ch:'♥\uFE0E'}, {id:'spark', n:'Sparkles', ch:'✦'}];
+const BLOCK_NAMES = {heading:'Heading', text:'Text', checklist:'Checklist', list:'List', note:'Note', habit:'Habits', table:'Table', canvas:'Drawing', divider:'Divider', counter:'Counter', mood:'Mood', week:'Week'};
+const NEW_BLOCK = {
+  heading: () => ({type:'heading', text:'', size:'h2'}),
+  text: () => ({type:'text', text:''}),
+  checklist: () => ({type:'checklist', title:'', items:[{t:'',d:0},{t:'',d:0},{t:'',d:0}]}),
+  list: () => ({type:'list', title:'', marker:'num', items:[{t:''},{t:''},{t:''}]}),
+  note: () => ({type:'note', text:'', color:'yellow'}),
+  habit: () => ({type:'habit', title:'', days:7, rows:[{n:'',d:[]},{n:'',d:[]}]}),
+  table: () => ({type:'table', cols:['Column','Column','Column'], rows:[['','',''],['','',''],['','','']]}),
+  canvas: () => ({type:'canvas', size:'m', bg:'dots'}),
+  divider: () => ({type:'divider'}),
+  counter: () => ({type:'counter', label:'Water · 250 ml glasses', count:8, filled:0, icon:'droplet'}),
+  mood: () => ({type:'mood', label:'Mood', pick:-1}),
+  week: () => ({type:'week', cells:Array(8).fill('')})
+};
+function openPlanner(id, edit){
+  const p = S.planners.get(id); if (!p) return;
+  S.openId = id; S.pageId = p.pages[0].id; S.view = 'ed'; S.editing = !!edit; S.draw = false; S.selDeco = null; S.focusBlock = null; Hist.reset(); render(); Hist.paint();
+}
+function closeEditor(){ Hist.commit(); Hist.stack = []; Hist.redo = []; Hist.last = null; Store.flush(); setDraw(false, true); closePicker(); S.view = 'lib'; S.openId = null; render(); }
+function setEditing(on){ Store.flush(); setDraw(false, true); closePicker(); closeMenu(); S.editing = on; S.selDeco = null; S.focusBlock = null; renderEditor(); }
+function renderEditor(){
+  const p = cur(); if (!p){ S.view = 'lib'; return render(); }
+  if (!curPage()) S.pageId = p.pages[0].id;
+  ensureFonts([resolveLook(lookOf(p))]);
+  const app = $('#app'); app.replaceChildren();
+  const back = h('button', {class:'btn ghost', type:'button', 'aria-label':'Back to planners', onclick:closeEditor}, '←');
+  const draw = h('button', {class:'btn'+(S.draw?' on':''), type:'button', id:'drawBtn', 'aria-pressed': S.draw ? 'true':'false', title:'Draw on this page', onclick:() => setDraw(!S.draw)}, '✏️', h('span', {class:'hide-sm'}, 'Draw'));
+  let top;
+  if (S.editing){
+    const iconBtn = h('button', {class:'iconbtn', type:'button', title:'Change icon', 'aria-label':'Change planner icon', onclick:e => openPicker(e.currentTarget, 'icon')}, Stickers.node(p.icon||'notebook'));
+    const ttl = h('input', {class:'ttl', id:'plannerTitle', value:p.title, maxlength:'60', 'aria-label':'Planner name'});
+    ttl.addEventListener('input', () => { p.title = ttl.value; touch(); });
+    const fs = h('select', {id:'plannerFolder', class:'hide-sm', 'aria-label':'Folder'}, h('option', {value:''}, 'No folder'), folders().map(f => h('option', {value:f.id, selected: p.folder===f.id ? true : null}, f.name)));
+    fs.addEventListener('change', () => { p.folder = fs.value || null; touch(); });
+    const styleBtn = h('button', {class:'btn', type:'button', title:'Cover, paper and font', onclick:e => openMenu(e.currentTarget, m => {
+      if (!p.look){ p.look = lookOf(p); delete p.style; }
+      m.append(appearancePanel(p.look, () => { touch(); renderPage(); }));
+    })}, '🎨', h('span', {class:'hide-sm'}, 'Appearance'));
+    top = h('header', {class:'top'}, back, iconBtn, ttl, fs, h('span', {class:'spacer'}), h('span', {class:'hide-sm'}, statusNode()),
+      h('button', {class:'btn ghost', type:'button', id:'undoBtn', title:(isMac?'⌘':'Ctrl')+'+Z', 'aria-label':'Undo', onclick:() => Hist.undo()}, '↶'), h('button', {class:'btn ghost', type:'button', id:'redoBtn', title:(isMac?'⌘':'Ctrl')+'+Shift+Z', 'aria-label':'Redo', onclick:() => Hist.redoStep()}, '↷'), styleBtn, draw,
+      h('button', {class:'btn ghost', type:'button', 'aria-label':'Delete planner', title:'Delete planner', onclick:() => { const id = p.id; closeEditor(); deletePlanner(id); }}, '🗑'),
+      h('button', {class:'btn primary editbtn', type:'button', onclick:() => setEditing(false)}, 'Done'));
+  } else {
+    top = h('header', {class:'top'}, back, Stickers.node(p.icon||'notebook', 'stk iconbtn'), h('span', {class:'ttl-static'}, p.title), h('span', {class:'spacer'}), h('span', {class:'hide-sm'}, statusNode()),
+      h('button', {class:'btn ghost', type:'button', id:'undoBtn', title:(isMac?'⌘':'Ctrl')+'+Z', 'aria-label':'Undo', onclick:() => Hist.undo()}, '↶'), h('button', {class:'btn ghost', type:'button', id:'redoBtn', title:(isMac?'⌘':'Ctrl')+'+Shift+Z', 'aria-label':'Redo', onclick:() => Hist.redoStep()}, '↷'), draw, h('button', {class:'btn editbtn', type:'button', onclick:() => setEditing(true)}, '✎ Edit'));
+  }
+  app.append(h('div', {class:'ed '+(S.editing ? 'editing' : 'use')}, top,
+    h('div', {class:'ed-body'}, h('aside', {class:'pages', id:'pages', 'aria-label':'Pages'}), h('main', {class:'main', id:'main'}))));
+  renderPages(); renderPage(); Hist.paint();
+}
+function renderPages(){
+  const p = cur(), box = $('#pages'); box.replaceChildren();
+  const sameLayout = () => { const c = clone(curPage()); c.blocks.forEach(b => b.id = uid()); emptyBlocks(c.blocks); c.deco.forEach(d => d.id = uid()); c.name = 'Page '+(p.pages.length+1); addPage(c); };
+  const add = S.editing
+    ? h('button', {class:'btn ghost', type:'button', title:'Add page', 'aria-label':'Add page', onclick:e => openMenu(e.currentTarget, m => m.append(
+        mi('Blank page', () => addPage({name:'Page '+(p.pages.length+1), blocks:[{id:uid(), type:'heading', text:'', size:'h1'}], deco:[]})),
+        mi('Same layout, empty', sameLayout)))}, '+ Page')
+    : h('button', {class:'btn ghost', type:'button', title:'New page with the same layout, empty', onclick:sameLayout}, '+ Page');
+  box.append(h('div', {class:'pages-head'}, h('span', {}, 'Pages'), add));
+  box.append(h('div', {class:'plist'}, p.pages.map((pg, i) => h('div', {class:'pitem'+(pg.id===S.pageId?' on':'')},
+    h('button', {class:'pn', type:'button', 'aria-current': pg.id===S.pageId ? 'page' : null, onclick:() => goPage(pg.id)}, pg.name || 'Untitled page'),
+    S.editing && h('button', {class:'pm', type:'button', 'aria-label':'Options for page '+(pg.name||i+1), onclick:e => pageMenu(e.currentTarget, pg, i)}, '⋯')))));
+}
+function pageMenu(anchor, pg, i){
+  const p = cur();
+  openMenu(anchor, m => m.append(
+    mi('Move up', () => { if (i>0){ p.pages.splice(i-1, 0, p.pages.splice(i,1)[0]); touch(); renderPages(); } }),
+    mi('Move down', () => { if (i<p.pages.length-1){ p.pages.splice(i+1, 0, p.pages.splice(i,1)[0]); touch(); renderPages(); } }),
+    mi('Duplicate page', async () => {
+      const ink = await loadInkFor(pg), c = clone(pg), map = {};
+      c.blocks.forEach(b => { const nid = uid(); map[b.id] = nid; b.id = nid; }); c.deco.forEach(d => d.id = uid()); c.name += ' (copy)';
+      const inkCopy = {overlay:clone(ink.overlay), blocks:{}}; for (const k in ink.blocks) if (map[k]) inkCopy.blocks[map[k]] = clone(ink.blocks[k]);
+      S.pageId = pg.id; addPage(c, inkCopy);
+    }),
+    mi('Save planner as template', () => { const t = clone(p); t.id = uid(); t.isTemplate = true; delete t.example; t.pages.forEach(x => { x.id = uid(); emptyBlocks(x.blocks); }); t.createdAt = t.updatedAt = Date.now(); S.planners.set(t.id, t); Store.savePlanner(t, true); toast(`Saved “${p.title}” to My templates, with entries cleared.`); }),
+    h('div', {class:'sep'}),
+    mi('Delete page', () => {
+      if (p.pages.length < 2){ toast('A planner needs at least one page.'); return; }
+      p.pages.splice(i, 1); touch(); Store.deleteInk(p.id, pg.id);
+      if (S.pageId===pg.id) S.pageId = p.pages[Math.max(0,i-1)].id;
+      renderPages(); renderPage();
+      toast(`Deleted page “${pg.name}”.`, () => { p.pages.splice(i, 0, pg); touch(); const ink = S.ink.get(pg.id); if (ink) Store.saveInk(p.id, pg.id, ink); renderPages(); });
+    }, 'danger')));
+}
+function emptyBlocks(blocks){
+  for (const b of blocks){
+    if (b.type==='text' || b.type==='note') b.text = '';
+    if (b.type==='checklist') b.items.forEach(x => x.d = 0);
+    if (b.type==='habit') b.rows.forEach(r => r.d = []);
+    if (b.type==='counter') b.filled = 0;
+    if (b.type==='mood') b.pick = -1;
+    if (b.type==='week') b.cells = b.cells.map(() => '');
+    if (b.type==='table') b.rows = b.rows.map(r => r.map((c, j) => j===0 ? c : ''));
+  }
+}
+function addPage(pg, ink){
+  const p = cur(); pg.id = uid(); pg.date = ymd(new Date());
+  pg.blocks.forEach(b => b.id = b.id || uid()); pg.deco = pg.deco || [];
+  const i = p.pages.findIndex(x => x.id===S.pageId);
+  p.pages.splice(i+1, 0, pg); touch();
+  const fresh = ink ? ink : {overlay:[], blocks:{}};
+  S.ink.set(pg.id, fresh); if (ink) Store.saveInk(p.id, pg.id, fresh);
+  goPage(pg.id);
+}
+function goPage(id){ if (S.draw) setDraw(false, true); S.pageId = id; S.selDeco = null; S.focusBlock = null; renderPages(); renderPage(); const m = $('#main'); if (m) m.scrollTop = 0; }
+
+/* --- page body --- */
+let paperRO;
+function renderPage(){
+  const p = cur(), pg = curPage(), main = $('#main'); main.replaceChildren();
+  const col = h('div', {class:'pagecol'});
+  if (S.editing){
+    const name = h('input', {class:'pname', id:'pageName', value:pg.name, placeholder:'Page name', 'aria-label':'Page name', maxlength:'60'});
+    name.addEventListener('input', () => { pg.name = name.value; touch(); const on = $('.pitem.on .pn'); if (on) on.textContent = pg.name || 'Untitled page'; });
+    const tb = h('div', {class:'toolbar', role:'toolbar', 'aria-label':'Add to page'},
+      ['heading','text','list','checklist','note','habit','table','canvas'].map(t => h('button', {class:'btn', type:'button', onclick:() => addBlock(NEW_BLOCK[t]())}, h('span', {class:'pl'}, '+'), BLOCK_NAMES[t])),
+      h('button', {class:'btn', type:'button', onclick:e => openPicker(e.currentTarget, 'deco')}, Stickers.node('smiling-face-with-smiling-eyes'), 'Sticker'),
+      h('button', {class:'btn', type:'button', 'aria-label':'More blocks', onclick:e => openMenu(e.currentTarget, m => m.append(
+        mi('Counter (water, runs…)', () => addBlock(NEW_BLOCK.counter())), mi('Mood', () => addBlock(NEW_BLOCK.mood())), mi('Week grid', () => addBlock(NEW_BLOCK.week())), mi('Divider', () => addBlock(NEW_BLOCK.divider()))))}, 'More ▾'));
+    col.append(name, tb);
+  }
+  const st = resolveLook(lookOf(p));
+  const book = h('div', {class:'notebook', id:'notebook'});
+  applyStyle(book, st);
+  const paper = h('div', {class:'paper pt-'+st.pattern, id:'paper'});
+  const blocks = h('div', {class:'blocks', id:'blocks'});
+  const deco = h('div', {class:'deco', id:'deco'});
+  const overlay = h('canvas', {class:'overlay'+(S.draw?' live':'')+(S.penSeen?' penonly':''), id:'overlay', 'aria-label':'Drawing layer'});
+  paper.append(blocks, deco, overlay); book.append(paper);
+  paper.addEventListener('pointerdown', e => { if (!e.target.closest('.dc') && !e.target.closest('.dctools') && S.selDeco){ S.selDeco = null; renderDeco(); } });
+  col.append(book); main.append(col);
+  renderBlocks(); renderDeco();
+  overlaySurface = null;
+  loadInkFor(pg).then(ink => {
+    if (S.pageId !== pg.id || !overlay.isConnected) return;
+    overlaySurface = new InkSurface(overlay, () => ink.overlay, () => saveInk(pg), () => S.draw);
+    paperRO?.disconnect(); paperRO = new ResizeObserver(() => { overlaySurface?.resize(); renderDecoPositions(); }); paperRO.observe(paper);
+  });
+  if (S.draw) showInkbar();
+}
+async function loadInkFor(pg){
+  if (!S.ink.has(pg.id)){
+    const d = await Store.loadInk(cur().id, pg.id);
+    if (!S.ink.has(pg.id)){ const ink = {overlay:(d && d.overlay) || [], blocks:(d && d.blocks) || {}}; S.ink.set(pg.id, ink); Hist.addInk(pg.id, clone(ink)); }
+  }
+  return S.ink.get(pg.id);
+}
+function saveInk(pg){ const ink = S.ink.get(pg.id); if (ink){ Store.saveInk(cur().id, pg.id, ink); Hist.note(); } }
+function addBlock(b){
+  const pg = curPage(); b.id = uid();
+  let i = S.focusBlock ? pg.blocks.findIndex(x => x.id===S.focusBlock) : -1;
+  i = i < 0 ? pg.blocks.length : i+1;
+  pg.blocks.splice(i, 0, b); touch(); S.focusBlock = b.id;
+  renderBlocks();
+  const n = $(`.blk[data-id="${b.id}"]`);
+  if (n){ n.scrollIntoView({block:'center', behavior:'smooth'}); const t = n.querySelector('[contenteditable]'); if (t) setTimeout(() => t.focus({preventScroll:true}), 60); }
+}
+function renderBlocks(){
+  const pg = curPage(), box = $('#blocks'); if (!box) return; box.replaceChildren();
+  pg.blocks.forEach(b => box.append(blockNode(b)));
+  if (S.editing) box.append(h('button', {class:'addhint', type:'button', onclick:() => { S.focusBlock = null; addBlock(NEW_BLOCK.text()); }}, '+ Click to add text'));
+  else if (!pg.blocks.length) box.append(h('p', {class:'muted'}, 'This page is empty. Tap Edit to add lists, notes and trackers.'));
+}
+function rerenderBlock(b, after){ const old = $(`.blk[data-id="${b.id}"]`); if (!old) return; const n = blockNode(b); old.replaceWith(n); if (after) after(n); }
+function blockNode(b){
+  const body = h('div', {class:'bbody'});
+  const n = h('div', {class:'blk', 'data-id':b.id}, body);
+  n.addEventListener('focusin', () => S.focusBlock = b.id);
+  (RB[b.type] || (() => {}))(body, b);
+  if (S.editing){
+    const handle = h('button', {class:'handle', type:'button', title:'Drag to move, click for options', 'aria-label':BLOCK_NAMES[b.type]+' options', html:GRIP});
+    n.prepend(handle);
+    handle.addEventListener('pointerdown', e => dragBlock(e, b, n, handle));
+    handle.addEventListener('keydown', e => { if (e.key==='Enter' || e.key===' '){ e.preventDefault(); blockMenu(handle, b); } });
+  }
+  return n;
+}
+function blockMenu(anchor, b){
+  const pg = curPage(), i = pg.blocks.indexOf(b);
+  openMenu(anchor, m => {
+    m.append(h('div', {class:'lab'}, BLOCK_NAMES[b.type]));
+    if (b.type==='note') m.append(h('div', {class:'rowx'}, NOTES.map(c => h('button', {class:'sw', type:'button', 'aria-label':c+' note', 'aria-pressed': b.color===c ? 'true':'false', style:{background:`var(--n-${c})`}, onclick:() => { b.color = c; touch(); closeMenu(); rerenderBlock(b); }}))));
+    if (b.type==='list') m.append(h('div', {class:'lab'}, 'Markers'), h('div', {class:'rowx'}, LIST_MARKERS.map(mk => h('button', {class:'chip mk', type:'button', title:mk.n, 'aria-label':mk.n, 'aria-pressed': (b.marker||'num')===mk.id ? 'true':'false', onclick:() => { b.marker = mk.id; touch(); closeMenu(); rerenderBlock(b); }}, mk.id==='num' ? '1.' : mk.ch))));
+    if (b.type==='heading') m.append(mi(b.size==='h1' ? 'Make smaller' : 'Make bigger', () => { b.size = b.size==='h1' ? 'h2' : 'h1'; touch(); rerenderBlock(b); }));
+    if (b.type==='canvas'){
+      m.append(h('div', {class:'rowx'}, [['s','Small'],['m','Medium'],['l','Large']].map(([k,l]) => h('button', {class:'chip', type:'button', 'aria-pressed': b.size===k ? 'true':'false', onclick:() => { b.size = k; touch(); closeMenu(); rerenderBlock(b); }}, l))),
+        h('div', {class:'rowx'}, [['dots','Dots'],['grid','Grid'],['plain','Plain']].map(([k,l]) => h('button', {class:'chip', type:'button', 'aria-pressed': b.bg===k ? 'true':'false', onclick:() => { b.bg = k; touch(); closeMenu(); rerenderBlock(b); }}, l))),
+        mi('Clear drawing', () => { const ink = S.ink.get(pg.id); if (!ink) return; const old = ink.blocks[b.id] || []; ink.blocks[b.id] = []; saveInk(pg); rerenderBlock(b); toast('Drawing cleared.', () => { ink.blocks[b.id] = old; saveInk(pg); rerenderBlock(b); }); }));
+    }
+    if (b.type==='habit') m.append(h('div', {class:'rowx'}, [[7,'Week'],[31,'Month']].map(([d,l]) => h('button', {class:'chip', type:'button', 'aria-pressed': b.days===d ? 'true':'false', onclick:() => { b.days = d; touch(); closeMenu(); rerenderBlock(b); }}, l))));
+    if (b.type==='table'){
+      m.append(mi('Add column', () => { b.cols.push('Column'); b.rows.forEach(r => r.push('')); touch(); rerenderBlock(b); }));
+      if (b.cols.length > 1) m.append(mi('Remove last column', () => { b.cols.pop(); b.rows.forEach(r => r.pop()); touch(); rerenderBlock(b); }));
+    }
+    if (b.type==='counter') m.append(h('div', {class:'rowx'}, COUNT_ICONS.map(ic => h('button', {class:'iconpick', type:'button', style:{width:'38px', height:'38px', padding:'5px'}, 'aria-label':ic.replace(/-/g,' '), 'aria-pressed': b.icon===ic ? 'true':'false', onclick:() => { b.icon = ic; touch(); closeMenu(); rerenderBlock(b); }}, Stickers.node(ic)))),
+      h('div', {class:'rowx'}, [4,6,8,10,12].map(c => h('button', {class:'chip', type:'button', 'aria-pressed': b.count===c ? 'true':'false', onclick:() => { b.count = c; b.filled = Math.min(b.filled, c); touch(); closeMenu(); rerenderBlock(b); }}, c))));
+    m.append(h('div', {class:'sep'}),
+      mi('Move up', () => { if (i>0){ pg.blocks.splice(i-1, 0, pg.blocks.splice(i,1)[0]); touch(); renderBlocks(); } }),
+      mi('Move down', () => { if (i<pg.blocks.length-1){ pg.blocks.splice(i+1, 0, pg.blocks.splice(i,1)[0]); touch(); renderBlocks(); } }),
+      mi('Duplicate', () => { const c = clone(b); c.id = uid(); pg.blocks.splice(i+1, 0, c); const ink = S.ink.get(pg.id); if (ink && ink.blocks[b.id]){ ink.blocks[c.id] = clone(ink.blocks[b.id]); saveInk(pg); } touch(); renderBlocks(); }),
+      mi('Delete', () => { const at = pg.blocks.indexOf(b); pg.blocks.splice(at, 1); touch(); renderBlocks(); toast(`${BLOCK_NAMES[b.type]} deleted.`, () => { pg.blocks.splice(at, 0, b); touch(); renderBlocks(); }); }, 'danger'));
+  });
+}
+function dragBlock(e, b, node, handle){
+  if (e.button > 0) return;
+  e.preventDefault();
+  const sy = e.clientY, sx = e.clientX; let moved = false, line = null, target = 0;
+  const box = $('#blocks');
+  const mv = ev => {
+    if (!moved && Math.hypot(ev.clientX-sx, ev.clientY-sy) < 6) return;
+    if (!moved){ moved = true; node.classList.add('dragging'); line = h('div', {class:'dropline'}); box.append(line); }
+    const sibs = [...box.querySelectorAll('.blk')];
+    target = sibs.length;
+    for (let i=0; i<sibs.length; i++){ const r = sibs[i].getBoundingClientRect(); if (ev.clientY < r.top + r.height/2){ target = i; break; } }
+    const br = box.getBoundingClientRect();
+    const y = target < sibs.length ? sibs[target].getBoundingClientRect().top - 10 : sibs[sibs.length-1].getBoundingClientRect().bottom + 7;
+    line.style.top = (y - br.top)+'px';
+    const main = $('#main'), mr = main.getBoundingClientRect();
+    if (ev.clientY < mr.top + 60) main.scrollTop -= 12; else if (ev.clientY > mr.bottom - 60) main.scrollTop += 12;
+  };
+  const up = () => {
+    window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
+    if (!moved){ blockMenu(handle, b); return; }
+    const pg = curPage(), from = pg.blocks.indexOf(b);
+    pg.blocks.splice(from, 1); pg.blocks.splice(target > from ? target-1 : target, 0, b);
+    touch(); renderBlocks();
+  };
+  window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
+}
+
+/* --- block renderers --- */
+/* Drag a row (list item, checklist item, table row, habit) to a new place in its block */
+function rowGrip(b, arr, i, rowSel, label){
+  const g = h('button', {class:'rgrip', type:'button', title:'Drag to move', 'aria-label':'Move '+(label || 'row')+'. Use arrow keys.', html:GRIP});
+  const move = to => { if (to < 0 || to >= arr.length || to===i) return; arr.splice(to, 0, arr.splice(i, 1)[0]); touch(); rerenderBlock(b, n => n.querySelectorAll('.rgrip')[to]?.focus()); };
+  g.addEventListener('keydown', e => { if (e.key==='ArrowUp'){ e.preventDefault(); move(i-1); } else if (e.key==='ArrowDown'){ e.preventDefault(); move(i+1); } });
+  g.addEventListener('pointerdown', e => {
+    if (e.button > 0) return;
+    e.preventDefault(); e.stopPropagation();
+    const blk = g.closest('.blk'), body = blk.querySelector('.bbody');
+    const rows = () => [...blk.querySelectorAll(rowSel)];
+    const sy = e.clientY; let moved = false, target = i, line = null;
+    const own = rows()[i];
+    const mv = ev => {
+      if (!moved && Math.abs(ev.clientY-sy) < 5) return;
+      if (!moved){ moved = true; own?.classList.add('rowdrag'); line = h('div', {class:'rowline'}); body.append(line); }
+      const rs = rows(); target = rs.length;
+      for (let k=0; k<rs.length; k++){ const r = rs[k].getBoundingClientRect(); if (ev.clientY < r.top + r.height/2){ target = k; break; } }
+      const br = body.getBoundingClientRect();
+      const y = target < rs.length ? rs[target].getBoundingClientRect().top : rs[rs.length-1].getBoundingClientRect().bottom;
+      line.style.top = (y - br.top - 1.5)+'px';
+      const main = $('#main'), mr = main.getBoundingClientRect();
+      if (ev.clientY < mr.top + 60) main.scrollTop -= 10; else if (ev.clientY > mr.bottom - 60) main.scrollTop += 10;
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
+      line?.remove(); own?.classList.remove('rowdrag');
+      if (!moved) return;
+      const to = target > i ? target-1 : target;
+      if (to !== i){ arr.splice(to, 0, arr.splice(i, 1)[0]); touch(); rerenderBlock(b); }
+    };
+    window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
+  });
+  return g;
+}
+const RB = {
+  heading(body, b){
+    body.append(editable('div', b.size==='h1' ? 'h1' : 'h2', b.text, v => b.text = v, {ph:'Heading', lock:true, onKey:(e) => {
+      if (e.key==='Enter'){ e.preventDefault(); S.focusBlock = b.id; addBlock(NEW_BLOCK.text()); return true; }
+    }}));
+  },
+  text(body, b){ body.append(editable('div', 'txt', b.text, v => b.text = v, {ph:'Type something…'})); },
+  note(body, b){
+    const n = editable('div', 'note', b.text, v => b.text = v, {ph:'Note…'});
+    n.style.setProperty('--nc', `var(--n-${b.color||'yellow'})`); n.style.setProperty('--nb', `var(--n-${b.color||'yellow'}-b)`);
+    body.append(n);
+  },
+  checklist(body, b){
+    body.append(editable('div', 'lt', b.title, v => b.title = v, {single:true, lock:true, ph:'List title'}));
+    b.items.forEach((it, i) => {
+      const cb = h('button', {class:'cb'+(it.d?' on':''), type:'button', role:'checkbox', 'aria-checked': it.d ? 'true':'false', 'aria-label':it.t || 'Item', onclick:() => { it.d = it.d ? 0 : 1; touch(); rerenderBlock(b); }});
+      const t = editable('div', 'ct', it.t, v => it.t = v, {ph:'Item', onKey:(e, el) => {
+        if (e.key==='Enter' && !e.shiftKey){ e.preventDefault(); if (!S.editing){ el.blur(); return true; } b.items.splice(i+1, 0, {t:'',d:0}); touch(); rerenderBlock(b, n => n.querySelectorAll('.ct')[i+1]?.focus()); return true; }
+        if (S.editing && e.key==='Backspace' && !it.t && b.items.length > 1){ e.preventDefault(); b.items.splice(i,1); touch(); rerenderBlock(b, n => focusEnd(n.querySelectorAll('.ct')[Math.max(0,i-1)])); return true; }
+      }});
+      const x = h('button', {class:'x', type:'button', 'aria-label':'Remove item', onclick:() => { b.items.splice(i,1); touch(); rerenderBlock(b); }}, '×');
+      body.append(h('div', {class:'ck'+(it.d?' done':'')}, S.editing && b.items.length > 1 && rowGrip(b, b.items, i, '.ck', it.t), cb, t, S.editing && x));
+    });
+    if (S.editing) body.append(h('button', {class:'addi', type:'button', onclick:() => { b.items.push({t:'',d:0}); touch(); rerenderBlock(b, n => { const a = n.querySelectorAll('.ct'); a[a.length-1]?.focus(); }); }}, '+ Add item'));
+  },
+  list(body, b){
+    const mk = LIST_MARKERS.find(x => x.id===b.marker) || LIST_MARKERS[0];
+    body.append(editable('div', 'lt', b.title, v => b.title = v, {single:true, lock:true, ph:'List title'}));
+    b.items.forEach((it, i) => {
+      const marker = h('span', {class:'lm'+(mk.id==='num' ? '' : ' sym')+(mk.id==='dot' ? ' ldot' : ''), 'aria-hidden':'true'}, mk.id==='num' ? (i+1)+'.' : mk.id==='dot' ? '' : mk.ch);
+      const t = editable('div', 'ct', it.t, v => it.t = v, {ph:'List item', onKey:(e, el) => {
+        if (e.key==='Enter' && !e.shiftKey){ e.preventDefault(); if (!S.editing){ el.blur(); return true; } b.items.splice(i+1, 0, {t:''}); touch(); rerenderBlock(b, n => n.querySelectorAll('.ct')[i+1]?.focus()); return true; }
+        if (S.editing && e.key==='Backspace' && !it.t && b.items.length > 1){ e.preventDefault(); b.items.splice(i,1); touch(); rerenderBlock(b, n => focusEnd(n.querySelectorAll('.ct')[Math.max(0,i-1)])); return true; }
+      }});
+      const x = h('button', {class:'x', type:'button', 'aria-label':'Remove item', onclick:() => { b.items.splice(i,1); touch(); rerenderBlock(b); }}, '×');
+      body.append(h('div', {class:'li'}, S.editing && b.items.length > 1 && rowGrip(b, b.items, i, '.li', it.t), marker, t, S.editing && x));
+    });
+    if (S.editing) body.append(h('button', {class:'addi', type:'button', onclick:() => { b.items.push({t:''}); touch(); rerenderBlock(b, n => { const a = n.querySelectorAll('.ct'); a[a.length-1]?.focus(); }); }}, '+ Add item'));
+  },
+  habit(body, b){
+    const n = b.days || 7;
+    body.append(editable('div', 'lt', b.title, v => b.title = v, {single:true, lock:true, ph:'Habits'}));
+    const g = h('div', {class:'hg'+(n>7?' m':'')});
+    g.style.gridTemplateColumns = `minmax(120px,${n>7?'1.4fr':'2fr'}) repeat(${n}, minmax(${n>7?17:30}px,1fr))`;
+    g.append(h('div', {}));
+    for (let i=0; i<n; i++) g.append(h('div', {class:'dh'}, n===7 ? DAYS[i][0] : i+1));
+    b.rows.forEach((r, ri) => {
+      g.append(h('div', {class:'hn'}, S.editing && b.rows.length > 1 && rowGrip(b, b.rows, ri, '.hn', r.n), editable('div', '', r.n, v => r.n = v, {single:true, lock:true, ph:'Habit'}), S.editing && h('button', {class:'x', type:'button', 'aria-label':'Remove habit', onclick:() => { b.rows.splice(ri,1); touch(); rerenderBlock(b); }}, '×')));
+      for (let i=0; i<n; i++){
+        const on = !!(r.d && r.d[i]);
+        g.append(h('button', {class:'dot'+(on?' on':''), type:'button', 'aria-label':`${r.n||'Habit'}, day ${i+1}`, 'aria-pressed': on ? 'true':'false', onclick:() => { r.d = r.d || []; r.d[i] = on ? 0 : 1; touch(); rerenderBlock(b); }}));
+      }
+    });
+    body.append(h('div', {class:'hab'}, g)); if (S.editing) body.append(h('button', {class:'addi', type:'button', onclick:() => { b.rows.push({n:'',d:[]}); touch(); rerenderBlock(b, x => { const a = x.querySelectorAll('.hn [contenteditable]'); a[a.length-1]?.focus(); }); }}, '+ Add habit'));
+  },
+  table(body, b){
+    const n = b.cols.length;
+    const drag = S.editing && b.rows.length > 1;
+    const g = h('div', {class:'tg'}); g.style.gridTemplateColumns = (drag ? '28px ' : '') + `repeat(${n}, minmax(0,1fr))`;
+    if (drag) g.append(h('div', {class:'th rg', 'aria-hidden':'true'}));
+    b.cols.forEach((c, j) => g.append(editable('div', 'th'+(j===n-1?' lc':''), c, v => b.cols[j] = v, {single:true, lock:true, ph:'Column'})));
+    b.rows.forEach((r, ri) => {
+      if (drag){ const cell = h('div', {class:'rg'}, rowGrip(b, b.rows, ri, '.tg > .rg:not(.th)', r[0])); g.append(cell); }
+      r.forEach((c, j) => g.append(editable('div', j===n-1?'lc':'', c, v => r[j] = v)));
+    });
+    body.append(h('div', {class:'tbl'}, g)); if (S.editing) body.append(h('div', {style:{display:'flex', gap:'16px'}},
+      h('button', {class:'addi', type:'button', onclick:() => { b.rows.push(b.cols.map(() => '')); touch(); rerenderBlock(b); }}, '+ Add row'),
+      b.rows.length > 1 ? h('button', {class:'addi', type:'button', onclick:() => { b.rows.pop(); touch(); rerenderBlock(b); }}, '− Remove last row') : null));
+  },
+  counter(body, b){
+    body.append(editable('div', 'lt', b.label, v => b.label = v, {single:true, lock:true, ph:'What are you counting?'}));
+    const row = h('div', {class:'cnt'});
+    for (let i=0; i<b.count; i++) row.append(h('button', {class:i < b.filled ? '' : 'off', type:'button', 'aria-label':`${i+1} of ${b.count}`, onclick:() => { b.filled = b.filled===i+1 ? i : i+1; touch(); rerenderBlock(b); }}, Stickers.node(b.icon||'droplet')));
+    body.append(row);
+  },
+  mood(body, b){
+    body.append(editable('div', 'lt', b.label, v => b.label = v, {single:true, lock:true, ph:'Mood'}));
+    body.append(h('div', {class:'moods'}, MOODS.map((m, i) => h('button', {class:b.pick===i ? 'on' : '', type:'button', 'aria-label':'Mood '+(i+1)+' of 5', 'aria-pressed': b.pick===i ? 'true':'false', onclick:() => { b.pick = b.pick===i ? -1 : i; touch(); rerenderBlock(b); }}, Stickers.node(m)))));
+  },
+  week(body, b){
+    const pg = curPage(), mon = monday(parseD(pg.date)), g = h('div', {class:'wk'});
+    for (let i=0; i<8; i++){
+      const d = addDays(mon, i);
+      g.append(h('div', {}, i<7 ? h('div', {class:'wkh'}, h('span', {}, DAYS[i]), h('b', {}, d.getDate())) : h('div', {class:'wkh'}, h('span', {}, 'Notes'), h('span', {}, 'Week '+isoWeek(mon))),
+        editable('div', '', b.cells[i], v => b.cells[i] = v)));
+    }
+    body.append(g);
+  },
+  divider(body){ body.append(h('hr', {class:'dv'})); },
+  canvas(body, b){
+    const ratio = {s:.36, m:.56, l:.9}[b.size] || .56;
+    const wrap = h('div', {class:'cvwrap '+(b.bg||'dots')+(S.penSeen?' penonly':'')});
+    wrap.style.aspectRatio = `1000 / ${Math.round(1000*ratio)}`;
+    const c = h('canvas', {'aria-label':'Drawing area'});
+    const hint = h('span', {class:'cvhint'}, 'Draw here with a mouse, finger or pen');
+    wrap.append(c, hint);
+    body.append(inkTools(), wrap);
+    const pg = curPage();
+    loadInkFor(pg).then(ink => {
+      if (!c.isConnected) return;
+      const get = () => ink.blocks[b.id] || (ink.blocks[b.id] = []);
+      const surf = new InkSurface(c, get, () => saveInk(pg), () => true);
+      if (get().length) hint.hidden = true;
+      surf.onStart = () => { hint.hidden = true; };
+      new ResizeObserver(() => surf.resize()).observe(wrap);
+    });
+  }
+};
+
+/* ============ Ink: pen, marker, eraser ============ */
+// Points are stored in "units": 1000 units = the drawing's width, so drawings scale with the screen size.
+let overlaySurface = null, lastSurface = null;
+const INK_W = {1:2.4, 2:4.2, 3:8};
+class InkSurface{
+  constructor(canvas, getStrokes, onChange, enabled){
+    this.c = canvas; this.get = getStrokes; this.onChange = onChange; this.enabled = enabled;
+    this.cur = null; this.erased = false;
+    canvas.addEventListener('pointerdown', e => this.down(e));
+    canvas.addEventListener('pointermove', e => this.move(e));
+    canvas.addEventListener('pointerup', () => this.up());
+    canvas.addEventListener('pointercancel', () => this.up());
+    this.resize();
+  }
+  resize(){
+    const r = this.c.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    if (!r.width || !r.height) return;
+    this.w = r.width; this.h = r.height; this.u = r.width / 1000;
+    this.c.width = Math.round(r.width*dpr); this.c.height = Math.round(r.height*dpr);
+    this.ctx = this.c.getContext('2d'); this.ctx.setTransform(dpr,0,0,dpr,0,0);
+    this.redraw();
+  }
+  pt(e){ const r = this.c.getBoundingClientRect(); const pr = e.pointerType==='pen' ? (e.pressure || .5) : .5; return [Math.round((e.clientX-r.left)/this.u*10)/10, Math.round((e.clientY-r.top)/this.u*10)/10, Math.round(pr*9)]; }
+  down(e){
+    if (!this.enabled() || e.button > 0 || !this.ctx) return;
+    if (e.pointerType==='pen' && !S.penSeen){ S.penSeen = true; document.querySelectorAll('.cvwrap,.overlay').forEach(n => n.classList.add('penonly')); }
+    if (e.pointerType==='touch' && S.penSeen) return;  // ignore the palm once a stylus has been used
+    e.preventDefault(); try{ this.c.setPointerCapture(e.pointerId); }catch(err){}
+    if (this.onStart) this.onStart();
+    lastSurface = this;
+    const t = S.tool;
+    if (t.kind==='eraser'){ this.cur = {erase:true}; this.erase(this.pt(e)); return; }
+    this.cur = {t:t.kind==='hl' ? 'hl' : 'pen', c:t.kind==='hl' ? t.hl : t.color, w:t.kind==='hl' ? 16 : INK_W[t.size], p:[]};
+    this.add(this.pt(e));
+  }
+  move(e){
+    if (!this.cur) return;
+    const evs = (e.getCoalescedEvents && e.getCoalescedEvents()) || [];
+    for (const ev of (evs.length ? evs : [e])){ if (this.cur.erase) this.erase(this.pt(ev)); else this.add(this.pt(ev)); }
+  }
+  up(){
+    if (!this.cur) return;
+    if (this.cur.erase){ if (this.erased){ this.onChange(); this.erased = false; } }
+    else if (this.cur.p.length >= 3){ this.get().push(this.cur); this.onChange(); }
+    this.cur = null; this.redraw();
+  }
+  add(q){
+    const p = this.cur.p, n = p.length;
+    if (n && Math.hypot(q[0]-p[n-3], q[1]-p[n-2]) < 1.2) return;
+    p.push(q[0], q[1], q[2]);
+    if (this.cur.t==='hl'){ this.redraw(); this.stroke(this.cur); }
+    else if (p.length >= 6) this.segment(this.cur, p.length/3 - 2);
+    else this.dotAt(this.cur);
+  }
+  erase(q){
+    const arr = this.get(), r = 14;
+    for (let i = arr.length-1; i >= 0; i--){
+      const p = arr[i].p;
+      for (let j=0; j<p.length; j+=3) if (Math.hypot(p[j]-q[0], p[j+1]-q[1]) < r){ arr.splice(i,1); this.erased = true; break; }
+    }
+    if (this.erased) this.redraw();
+  }
+  color(key){ return getComputedStyle(this.c).getPropertyValue('--i-'+key).trim() || cssVar('--i-'+key) || '#1C1C1E'; }
+  redraw(){ if (!this.ctx) return; this.ctx.clearRect(0, 0, this.w, this.h); for (const s of this.get()) this.stroke(s); }
+  stroke(s){
+    const ctx = this.ctx, u = this.u, p = s.p;
+    if (s.t==='hl'){
+      ctx.save(); ctx.globalAlpha = .38; ctx.strokeStyle = this.color(s.c); ctx.lineWidth = s.w*u; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); ctx.moveTo(p[0]*u, p[1]*u);
+      for (let i=3; i<p.length; i+=3) ctx.lineTo(p[i]*u, p[i+1]*u);
+      if (p.length === 3) ctx.lineTo(p[0]*u+.1, p[1]*u);
+      ctx.stroke(); ctx.restore(); return;
+    }
+    if (p.length < 6){ this.dotAt(s); return; }
+    for (let k=0; k < p.length/3 - 1; k++) this.segment(s, k);
+  }
+  dotAt(s){ const ctx = this.ctx, u = this.u, p = s.p; ctx.fillStyle = this.color(s.c); ctx.beginPath(); ctx.arc(p[0]*u, p[1]*u, Math.max(.8, s.w*u*.5*(.45+p[2]/9)), 0, 7); ctx.fill(); }
+  segment(s, k){
+    const ctx = this.ctx, u = this.u, p = s.p, i = k*3;
+    const pr = (p[i+2] + p[i+5]) / 2;
+    ctx.strokeStyle = this.color(s.c); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.lineWidth = Math.max(.6, s.w * u * (.45 + pr/9));
+    ctx.beginPath(); ctx.moveTo(p[i]*u, p[i+1]*u); ctx.lineTo(p[i+3]*u, p[i+4]*u); ctx.stroke();
+  }
+}
+function inkTools(inBar){
+  const t = S.tool;
+  const wrap = h('div', {class:inBar ? 'inkset' : 'cvtools', style: inBar ? {display:'contents'} : null});
+  const tool = (k, ic, label) => h('button', {class:'tool', type:'button', title:label, 'aria-label':label, 'aria-pressed': t.kind===k ? 'true':'false', onclick:() => { t.kind = k; refreshInkTools(); }}, ic, h('span', {class:'tl'}, label));
+  wrap.append(tool('pen','✏️', 'Pen'), tool('hl','🖍', 'Marker'), tool('eraser','🩹', 'Eraser'), h('span', {class:'vsep'}));
+  if (t.kind==='hl') HL_COLORS.forEach(c => wrap.append(h('button', {class:'ic-sw', type:'button', 'aria-label':'Marker colour', 'aria-pressed': t.hl===c ? 'true':'false', style:{background:`var(--i-${c})`}, onclick:() => { t.hl = c; refreshInkTools(); }})));
+  else {
+    INK_COLORS.forEach(c => wrap.append(h('button', {class:'ic-sw', type:'button', 'aria-label':'Pen colour '+c, 'aria-pressed': t.kind==='pen' && t.color===c ? 'true':'false', style:{background:`var(--i-${c})`}, onclick:() => { t.color = c; t.kind = 'pen'; refreshInkTools(); }})));
+    wrap.append(h('span', {class:'vsep'}));
+    [1,2,3].forEach(sz => wrap.append(h('button', {class:'tool', type:'button', 'aria-label':'Line size '+sz, 'aria-pressed': t.kind==='pen' && t.size===sz ? 'true':'false', onclick:() => { t.size = sz; t.kind = 'pen'; refreshInkTools(); }}, h('span', {style:{display:'inline-block', width:(3+sz*3)+'px', height:(3+sz*3)+'px', borderRadius:'50%', background:'currentColor'}}))));
+  }
+  wrap.append(h('span', {class:'vsep'}), h('button', {class:'tool', type:'button', title:'Undo last stroke', 'aria-label':'Undo last stroke', onclick:undoStroke}, '↶', h('span', {class:'tl'}, 'Undo')));
+  return wrap;
+}
+function refreshInkTools(){
+  document.querySelectorAll('.cvtools').forEach(n => n.replaceWith(inkTools()));
+  if (S.draw) showInkbar();
+}
+function undoStroke(){
+  const s = lastSurface && lastSurface.c.isConnected ? lastSurface : overlaySurface; if (!s) return;
+  const arr = s.get(); if (!arr.length){ toast('Nothing to undo here.'); return; }
+  arr.pop(); s.redraw(); s.onChange();
+}
+function setDraw(on, quiet){
+  S.draw = on;
+  document.body.classList.toggle('drawing', on);
+  const ov = $('#overlay'); if (ov) ov.classList.toggle('live', on);
+  const b = $('#drawBtn'); if (b){ b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true':'false'); }
+  if (on){ S.selDeco = null; renderDeco(); showInkbar(); lastSurface = overlaySurface; if (!quiet) toast('Draw anywhere on the page. Press Done when you finish.'); }
+  else document.querySelector('.inkbar')?.remove();
+}
+function showInkbar(){
+  document.querySelector('.inkbar')?.remove();
+  const bar = h('div', {class:'inkbar', role:'toolbar', 'aria-label':'Drawing tools'}, inkTools(true),
+    h('button', {class:'tool', type:'button', title:'Clear all drawing on this page', onclick:() => {
+      const pg = curPage(), ink = S.ink.get(pg.id); if (!ink || !ink.overlay.length) return;
+      const old = ink.overlay.slice(); ink.overlay.length = 0; overlaySurface?.redraw(); saveInk(pg);
+      toast('Cleared the drawing on this page.', () => { ink.overlay.push(...old); overlaySurface?.redraw(); saveInk(pg); });
+    }}, 'Clear'),
+    h('button', {class:'btn primary', type:'button', onclick:() => setDraw(false)}, 'Done'));
+  document.body.append(bar);
+}
+
+/* ============ Free stickers & washi tape ============ */
+function tapeBg(tp){ const c = tp.color; return tp.pattern==='stripes' ? `repeating-linear-gradient(-45deg, ${c} 0 9px, color-mix(in srgb, ${c} 55%, white) 9px 18px)` : tp.pattern==='dots' ? `radial-gradient(circle, rgba(255,255,255,.75) 2.2px, transparent 2.8px) 0 0 / 12px 12px, ${c}` : c; }
+function placeDeco(n, d, k){ n.style.left = d.x*k+'px'; n.style.top = d.y*k+'px'; n.style.width = d.w*k+'px'; n.style.height = (d.kind==='tape' ? d.h : d.kind==='image' ? d.w*(d.ar||1) : d.w)*k+'px'; n.style.transform = `rotate(${d.r||0}deg)`; }
+function renderDeco(){
+  const box = $('#deco'), paper = $('#paper'); if (!box) return;
+  box.replaceChildren(); document.querySelector('.dctools')?.remove();
+  const pg = curPage(), k = paper.clientWidth / 1000;
+  for (const d of pg.deco){
+    const n = h('div', {class:'dc'+(S.selDeco===d.id?' sel':''), 'data-id':d.id, role:'img', 'aria-label':d.kind==='tape' ? 'Washi tape' : d.kind==='image' ? 'Picture' : d.name.replace(/-/g,' ')});
+    if (d.kind==='sticker') n.append(Stickers.node(d.name));
+    else if (d.kind==='image'){ const im = h('img', {class:'pic', alt:'', draggable:'false', src:picSrc(d)}); im.addEventListener('error', () => { im.removeAttribute('src'); im.classList.add('missing'); }); n.append(im); }
+    else n.append(h('div', {class:'tape', style:{background:tapeBg(d)}}));
+    n.append(h('span', {class:'rz', title:'Drag to resize', 'aria-hidden':'true'}), h('span', {class:'rt', title:'Drag to rotate', 'aria-hidden':'true'}, '↻'));
+    placeDeco(n, d, k); box.append(n);
+    n.addEventListener('pointerdown', e => {
+      if (S.draw || e.button > 0) return;
+      e.preventDefault(); e.stopPropagation();
+      const kk = paper.clientWidth/1000, resize = !!e.target.closest('.rz'), rotate = !!e.target.closest('.rt'), sx = e.clientX, sy = e.clientY, o = {...d};
+      const nr = n.getBoundingClientRect(), cx = nr.left + nr.width/2, cy = nr.top + nr.height/2;
+      const a0 = Math.atan2(sy-cy, sx-cx)*180/Math.PI, r0 = d.r||0; let badge = null;
+      if (rotate){ n.classList.add('rotating'); badge = h('div', {class:'rotbadge'}, Math.round(r0)+'°'); paper.append(badge); }
+      if (S.selDeco !== d.id){ S.selDeco = d.id; box.querySelectorAll('.dc').forEach(x => x.classList.toggle('sel', x===n)); }
+      document.querySelector('.dctools')?.remove();
+      let moved = false;
+      const mv = ev => {
+        const dx = (ev.clientX-sx)/kk, dy = (ev.clientY-sy)/kk;
+        if (!moved && Math.hypot(dx,dy) < 3) return; moved = true;
+        if (rotate){
+          let r = r0 + Math.atan2(ev.clientY-cy, ev.clientX-cx)*180/Math.PI - a0;
+          r = ((r % 360) + 540) % 360 - 180;
+          if (ev.shiftKey) r = Math.round(r/15)*15;
+          else { const near = Math.round(r/45)*45; if (Math.abs(r-near) < 5) r = near; }
+          d.r = Math.round(r);
+          n.style.transform = `rotate(${d.r}deg)`;
+          const pr = paper.getBoundingClientRect(); badge.textContent = d.r+'°'; badge.style.left = (cx - pr.left - 18)+'px'; badge.style.top = (cy - pr.top - 12)+'px';
+          return;
+        }
+        if (resize){
+          const rad = (d.r||0)*Math.PI/180, lx = dx*Math.cos(rad) + dy*Math.sin(rad), ly = -dx*Math.sin(rad) + dy*Math.cos(rad);
+          d.w = clamp(o.w + (d.kind==='tape' ? lx : (lx+ly)/2), 30, 1000); if (d.kind==='tape') d.h = clamp(o.h+ly, 16, 200);
+        }
+        else { d.x = clamp(o.x+dx, -d.w/2, 1000-d.w/2); d.y = Math.max(-60, o.y+dy); }
+        placeDeco(n, d, kk);
+      };
+      const up = () => { window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up); n.classList.remove('rotating'); badge?.remove(); if (moved) touch(); decoTools(n, d); };
+      window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
+    });
+  }
+}
+function renderDecoPositions(){
+  const paper = $('#paper'); if (!paper) return; const k = paper.clientWidth/1000, pg = curPage();
+  document.querySelectorAll('#deco .dc').forEach(n => { const d = pg.deco.find(x => x.id===n.dataset.id); if (d) placeDeco(n, d, k); });
+}
+function decoTools(n, d){
+  document.querySelector('.dctools')?.remove();
+  const paper = $('#paper'), pg = curPage();
+  if (!n || !paper) return;
+  const t = h('div', {class:'dctools'},
+    (d.r ? h('button', {type:'button', title:'Set rotation back to 0°', onclick:() => { d.r = 0; touch(); renderDeco(); decoTools($(`.dc[data-id="${d.id}"]`), d); }}, 'Straighten') : null),
+    h('button', {type:'button', onclick:() => { const c = {...clone(d), id:uid(), x:d.x+30, y:d.y+30}; pg.deco.push(c); S.selDeco = c.id; touch(); renderDeco(); decoTools($(`.dc[data-id="${c.id}"]`), c); }}, 'Copy'),
+    h('button', {type:'button', style:{color:'var(--danger)'}, onclick:() => { const i = pg.deco.indexOf(d); pg.deco.splice(i,1); S.selDeco = null; touch(); renderDeco(); toast('Removed.', () => { pg.deco.splice(i,0,d); touch(); renderDeco(); }); }}, 'Delete'));
+  paper.append(t);
+  const pr = paper.getBoundingClientRect(), r = n.getBoundingClientRect();
+  t.style.left = clamp(r.left - pr.left, 8, pr.width - t.offsetWidth - 8)+'px';
+  t.style.top = (r.bottom - pr.top + 14)+'px';
+}
+
+/* ============ Sticker / tape / icon picker ============ */
+function closePicker(){ S.picker = null; document.querySelector('.picker')?.remove(); }
+function openPicker(anchor, mode){
+  if (S.picker && S.picker.mode===mode){ closePicker(); return; }
+  S.picker = {mode, tab:'stickers', q:'', cat:'Popular', limit:120, anchor};
+  renderPicker();
+  const off = e => { const p = document.querySelector('.picker'); if (!p || (!p.contains(e.target) && !anchor.contains(e.target))){ if (p) closePicker(); document.removeEventListener('pointerdown', off, true); } };
+  setTimeout(() => document.addEventListener('pointerdown', off, true));
+}
+function renderPicker(){
+  const st = S.picker; if (!st) return;
+  const old = document.querySelector('.picker'); const hadFocus = old && document.activeElement && document.activeElement.id==='pickSearch';
+  old?.remove();
+  const head = h('div', {class:'picker-head'}), body = h('div', {class:'picker-body'});
+  const pk = h('div', {class:'picker', role:'dialog', 'aria-label': st.mode==='icon' ? 'Choose planner icon' : 'Add a sticker'}, head, body);
+  if (st.mode==='deco') head.append(h('div', {class:'tabs', role:'tablist'}, [['stickers','Stickers'],['tape','Washi tape'],['pic','Picture']].map(([k,l]) => h('button', {type:'button', role:'tab', 'aria-selected': st.tab===k ? 'true':'false', onclick:() => { st.tab = k; renderPicker(); }}, l))));
+  if (st.tab==='pic' && st.mode==='deco'){
+    const file = h('input', {type:'file', id:'picFile', accept:'image/png,image/jpeg,image/webp,image/gif', multiple:true, hidden:true});
+    file.addEventListener('change', () => { addPictures([...file.files]); file.value = ''; });
+    const box = h('div', {class:'upbox'},
+      h('div', {style:{fontSize:'30px'}}, '🖼️'),
+      h('div', {}, 'Copy any picture (Pinterest, Google, a screenshot) and press ', h('kbd', {}, isMac ? '⌘' : 'Ctrl'), ' + ', h('kbd', {}, 'V'), ' on the page.'),
+      h('button', {class:'btn primary', type:'button', onclick:() => file.click()}, 'Choose from device'),
+      h('div', {class:'credit'}, 'You can also drag pictures onto the page.'), file);
+    box.addEventListener('dragover', e => { e.preventDefault(); box.classList.add('over'); });
+    box.addEventListener('dragleave', () => box.classList.remove('over'));
+    box.addEventListener('drop', e => { e.preventDefault(); box.classList.remove('over'); addPictures([...e.dataTransfer.files]); });
+    body.append(box);
+  } else if (st.tab==='tape' && st.mode==='deco'){
+    body.append(h('div', {class:'tgrid'}, TAPES.map(tp => h('button', {type:'button', 'aria-label':'Add washi tape', onclick:() => addDeco({kind:'tape', ...tp, w:220, h:40, r:Math.round(Math.random()*10-5)})}, h('div', {class:'tape', style:{background:tapeBg(tp)}})))));
+  } else {
+    const search = h('input', {class:'input', id:'pickSearch', type:'search', placeholder:'Search: cat, coffee, star, gym…', value:st.q, 'aria-label':'Search stickers'});
+    const grid = h('div', {class:'sgrid'});
+    const more = h('button', {class:'btn', type:'button', style:{marginTop:'10px'}}, 'Show more');
+    const chips = h('div', {class:'chips'}, ['Popular', ...(Stickers.data ? Object.keys(Stickers.data.c) : [])].map(c => h('button', {class:'chip', type:'button', 'aria-pressed': st.cat===c ? 'true':'false', onclick:() => { st.cat = c; st.limit = 120; renderPicker(); }}, c)));
+    chips.hidden = !!st.q;
+    const fill = () => {
+      grid.replaceChildren();
+      if (!Stickers.data){ grid.append(h('p', {class:'credit', style:{gridColumn:'1/-1'}}, Stickers.failed ? 'Stickers didn’t load. Reload the page to try again.' : 'Loading stickers…')); more.hidden = true; return; }
+      const list = Stickers.search(st.q, st.q ? null : st.cat);
+      for (const n of list.slice(0, st.limit)) grid.append(h('button', {type:'button', title:n.replace(/-/g,' '), 'aria-label':n.replace(/-/g,' '), onclick:() => {
+        if (st.mode==='icon'){ cur().icon = n; touch(); closePicker(); const ib = $('.iconbtn .stk'); if (ib){ ib.dataset.stk = n; Stickers.fill(ib, n); } }
+        else addDeco({kind:'sticker', name:n, w:110, r:Math.round(Math.random()*20-10)});
+      }}, Stickers.node(n)));
+      if (!list.length) grid.append(h('p', {class:'credit', style:{gridColumn:'1/-1'}}, 'No stickers match. Try a simpler word.'));
+      more.hidden = list.length <= st.limit;
+    };
+    search.addEventListener('input', () => { st.q = search.value; st.limit = 120; chips.hidden = !!st.q; fill(); });
+    more.addEventListener('click', () => { st.limit += 240; fill(); });
+    head.append(search, chips); body.append(grid, more, h('p', {class:'credit', style:{marginTop:'8px'}}, 'Shown in your device’s emoji style.'));
+    fill();
+    if (hadFocus || matchMedia('(pointer:fine)').matches) setTimeout(() => search.focus(), 0);
+  }
+  document.body.append(pk);
+  const r = st.anchor.getBoundingClientRect();
+  pk.style.left = clamp(r.left, 12, innerWidth - pk.offsetWidth - 12)+'px';
+  pk.style.top = clamp(r.bottom + 8, 12, innerHeight - pk.offsetHeight - 12)+'px';
+}
+const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+function picSrc(d){ return d.asset ? (Store.assetUrl ? Store.assetUrl(d.asset) : '/_blob/' + d.asset) : (d.data || ''); }
+function loadImage(blob){
+  return new Promise((res, rej) => { const u = URL.createObjectURL(blob), im = new Image(); im.onload = () => res({im, u}); im.onerror = () => { URL.revokeObjectURL(u); rej(new Error('bad image')); }; im.src = u; });
+}
+async function shrink(blob, max, q){
+  const {im, u} = await loadImage(blob);
+  const sc = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight));
+  const w = Math.max(1, Math.round(im.naturalWidth*sc)), hh = Math.max(1, Math.round(im.naturalHeight*sc));
+  const c = document.createElement('canvas'); c.width = w; c.height = hh;
+  c.getContext('2d').drawImage(im, 0, 0, w, hh); URL.revokeObjectURL(u);
+  const out = await new Promise(r => c.toBlob(r, 'image/webp', q));
+  return {blob: out && out.type==='image/webp' ? out : await new Promise(r => c.toBlob(r, 'image/png')), canvas:c, ar: hh/w};
+}
+let picBusy = 0;
+async function addPictures(files){
+  const imgs = files.filter(f => f && /^image\//.test(f.type));
+  if (!imgs.length){ toast('That isn’t a picture. Copy an image and try again.'); return; }
+  if (S.view!=='ed' || !cur()) return;
+  if (!S.editing){ setEditing(true); }
+  picBusy++; toast(imgs.length > 1 ? `Adding ${imgs.length} pictures…` : 'Adding picture…');
+  let added = 0;
+  for (const f of imgs){
+    try{
+      let d;
+      if (Store.assets){
+        const {blob, ar} = f.type==='image/gif' ? {blob:f, ar:(await shrink(f, 64, .5)).ar} : await shrink(f, 1400, .9);
+        const up = await Store.assets.upload(blob);
+        d = {kind:'image', asset:up.id, ar, w:ar > 1.3 ? 200 : 280, r:0};
+      } else {
+        const {canvas, ar} = await shrink(f, 520, .82);
+        const data = canvas.toDataURL('image/webp', .8);
+        if (data.length > 90000){ toast('This picture is too big to save here. Try a smaller one.'); continue; }
+        d = {kind:'image', data, ar, w:ar > 1.3 ? 200 : 280, r:0};
+      }
+      addDeco(d); added++;
+    }catch(e){
+      toast(e && e.code==='quota_or_state' ? 'Picture storage is full. Delete some pictures and try again.' : e && e.code==='too_large' ? 'That picture is too large (20 MB max).' : 'Couldn’t add that picture. Try copying it again.');
+    }
+  }
+  picBusy--; closePicker();
+  if (added) toast(added > 1 ? `Added ${added} pictures. Drag to move, ↻ to rotate.` : 'Picture added. Drag to move, ↻ to rotate.');
+}
+document.addEventListener('paste', e => {
+  if (S.view!=='ed' || !e.clipboardData) return;
+  const files = [...e.clipboardData.items].filter(it => it.kind==='file' && /^image\//.test(it.type)).map(it => it.getAsFile()).filter(Boolean);
+  if (!files.length) return;          // plain text paste works as usual
+  e.preventDefault();
+  addPictures(files);
+});
+document.addEventListener('dragover', e => {
+  if (S.view!=='ed' || !e.dataTransfer || ![...e.dataTransfer.types].includes('Files')) return;
+  e.preventDefault(); $('#paper')?.classList.add('dropping');
+});
+document.addEventListener('dragleave', e => { if (!e.relatedTarget) $('#paper')?.classList.remove('dropping'); });
+document.addEventListener('drop', e => {
+  $('#paper')?.classList.remove('dropping');
+  if (S.view!=='ed' || !e.dataTransfer || !e.dataTransfer.files.length) return;
+  if (e.target.closest && e.target.closest('.upbox')) return;
+  e.preventDefault(); addPictures([...e.dataTransfer.files]);
+});
+function addDeco(d){
+  const pg = curPage(), paper = $('#paper'), main = $('#main');
+  const k = paper.clientWidth/1000, pr = paper.getBoundingClientRect(), mr = main.getBoundingClientRect();
+  const visMid = (Math.max(mr.top, pr.top) + Math.min(mr.bottom, pr.bottom))/2 - pr.top;
+  const n = pg.deco.length % 5;
+  d.id = uid(); d.x = clamp(500 - d.w/2 + n*30 - 60, 0, 1000 - d.w); d.y = Math.max(0, visMid/k - (d.h || d.w*(d.ar||1))/2 + n*20);
+  pg.deco.push(d); S.selDeco = d.id; touch(); renderDeco();
+  if (!matchMedia('(pointer:fine)').matches) closePicker();
+  const node = $(`.dc[data-id="${d.id}"]`); if (node) decoTools(node, d);
+}
+
+/* ============ Boot ============ */
+function seedExamples(){
+  for (const id of ['training','weekly','food','sketch']){
+    const p = instantiate(TEMPLATES.find(t => t.id===id)); p.example = true; p.updatedAt = Date.now() - Math.random()*3e5;
+    S.planners.set(p.id, p); Store.savePlanner(p, true);
+  }
+}
+(async function boot(){
+  Stickers.load();
+  await Store.init();
+  const {meta, planners} = await Store.load();
+  if (meta && Array.isArray(meta.folders)){
+    S.meta = meta;
+    S.meta.folders = S.meta.folders.map((f, i) => ({id:f.id, name:f.name, color: f.color || (DEFAULT_FOLDERS.find(d => d.id===f.id)||{}).color || FOLDER_COLORS[(i+4) % FOLDER_COLORS.length].c}));
+    const oldExamples = [];
+    for (const p of planners) if (p && p.id && p.pages){
+      if (p.v !== 2 && p.example){ oldExamples.push(p); continue; }   // the old sample planners are replaced by new ones
+      const m = migrate(p); let changed = m !== p; if (!m.look){ m.look = {...(OLD_STYLE_LOOK[m.style || TINT_STYLE[m.tint]] || DEFAULT_LOOK)}; delete m.style; delete m.tint; changed = true; } S.planners.set(m.id, m); if (changed) Store.savePlanner(m, true);
+    }
+    oldExamples.forEach(p => Store.deletePlanner(p));
+    if (S.meta.v !== 2){ S.meta.v = 2; seedExamples(); Store.saveMeta(); }
+  } else {
+    S.meta = {folders:clone(DEFAULT_FOLDERS), v:2};
+    for (const p of planners) if (p && p.id && p.pages){ const m = migrate(p); S.planners.set(m.id, m); Store.savePlanner(m, true); }
+    seedExamples(); Store.saveMeta();
+  }
+  S.status = 'saved';
+  render();
+})();
+</script>
+
+</body>
+</html>
