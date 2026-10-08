@@ -177,6 +177,23 @@
         assets,
         assetUrl: id => sb.storage.from(BUCKET).getPublicUrl(id).data.publicUrl,
         account: session.user.email,
+        /* Private link for Apple Calendar / Google Calendar to subscribe to this account's events. */
+        async feedUrl() {
+          let { data, error } = await sb.from('folio_feeds').select('token').maybeSingle();
+          if (error) fail(error);
+          if (!data) {
+            const bytes = crypto.getRandomValues(new Uint8Array(24));
+            const token = btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+            const r = await sb.from('folio_feeds').insert({ token, user_id: uid });
+            if (r.error) fail(r.error);
+            data = { token };
+          }
+          return cfg.supabaseUrl + '/functions/v1/folio-ics?t=' + encodeURIComponent(data.token);
+        },
+        async resetFeed() {
+          const { error } = await sb.from('folio_feeds').delete().eq('user_id', uid);
+          if (error) fail(error);
+        },
         signOut: async () => { await sb.auth.signOut(); location.reload(); }
       };
     }

@@ -350,6 +350,57 @@ button{cursor:pointer}
   .cvtools{gap:2px}
   .picker{left:12px!important;right:12px;top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:auto}
 }
+/* ---------- Calendar ---------- */
+.cal{display:grid;grid-template-rows:auto minmax(0,1fr);height:100vh;height:100dvh}
+.cal-top{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.cal-top h1{font-size:20px;font-weight:700;margin:0 6px 0 0;letter-spacing:-.01em}
+.cal-month{font-size:17px;font-weight:600;min-width:150px;text-align:center;font-variant-numeric:tabular-nums}
+.cal-body{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:0}
+.cal-gridwrap{padding:16px 20px 40px;overflow:auto}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface)}
+.cal-dow{font-size:12px;font-weight:600;color:var(--ink-2);text-transform:uppercase;letter-spacing:.05em;padding:10px 10px 6px;border-bottom:1px solid var(--line)}
+.cal-day{position:relative;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;text-align:left;padding:6px 6px 8px;min-height:104px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.cal-day:nth-child(7n+7){border-right:0}
+.cal-day:hover{background:var(--sunk)}
+.cal-day.out .dn{color:var(--line-2)}
+.cal-day .dn{font-size:13px;font-weight:600;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;font-variant-numeric:tabular-nums}
+.cal-day.today .dn{background:var(--accent);color:#fff}
+.cal-day.sel{box-shadow:inset 0 0 0 2px var(--accent)}
+.evchip{display:block;font-size:12px;line-height:1.35;padding:2px 6px;border-radius:6px;background:color-mix(in srgb,var(--ec) 22%,transparent);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:3px solid var(--ec)}
+.evmore{font-size:11px;color:var(--ink-2);padding-left:4px}
+.cal-side{border-left:1px solid var(--line);padding:18px 18px 40px;overflow:auto;display:flex;flex-direction:column;gap:14px;background:var(--bg)}
+.cal-side h2{font-size:19px;margin:0;font-weight:700}
+.evrow{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:10px 12px;text-align:left;width:100%}
+.evrow:hover{border-color:var(--line-2)}
+.evrow .bar{width:4px;align-self:stretch;border-radius:4px;background:var(--ec);flex:none}
+.evrow .tm{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.evrow .ti{font-weight:600;overflow-wrap:anywhere}
+.evrow .nt{font-size:13px;color:var(--ink-2);margin-top:2px;white-space:pre-wrap;overflow-wrap:anywhere}
+.evform{display:grid;gap:10px;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:14px}
+.evform .row2{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.evform label.l{font-size:12px;color:var(--ink-2);font-weight:500}
+.evform input[type=time],.evform input[type=date]{width:auto}
+.evform textarea{resize:vertical;min-height:60px;font:inherit}
+a.btn{text-decoration:none}
+.syncbox{display:grid;gap:12px;max-width:520px}
+.syncbox ol{margin:0;padding-left:20px;display:grid;gap:6px}
+.syncbox code{font-size:12px;word-break:break-all;background:var(--sunk);padding:8px 10px;border-radius:8px;display:block}
+.wkev{font-size:.78em;line-height:1.3;color:var(--ink-2);display:block;margin-top:2px}
+.wkev::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ec);margin-right:5px;vertical-align:1px}
+@media (max-width:820px){
+  .cal-body{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;align-content:start;overflow:auto}
+  .cal-gridwrap{padding:10px 10px 6px;overflow:visible}
+  .cal-day{min-height:58px;padding:4px 3px}
+  .cal-day .evchip{font-size:0;padding:0;height:6px;border-radius:3px;border-left:0;background:var(--ec)}
+  .cal-day .evmore{display:none}
+  .cal-side{border-left:0;padding:12px 16px 60px}
+  .cal-top .hide-sm{display:none}
+  .cal-top{gap:4px;padding:8px 10px}
+  .cal-top h1{display:none}
+  .cal-month{min-width:0;flex:1;font-size:16px}
+  .cal-top .spacer{display:none}
+  .cal-top .btn.primary{flex:1 1 100%;justify-content:center;margin-top:4px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 /* ---------- Notebook look & style presets ---------- */
 .pt-dots{background-image:radial-gradient(circle,var(--line) 1.25px,transparent 1.75px);background-size:24px 24px;background-position:12px 12px}
@@ -410,7 +461,7 @@ button{cursor:pointer}
 
 <script src="supabase.js"></script>
 <script src="config.js"></script>
-<script src="backend.js?v=2"></script>
+<script src="backend.js?v=3"></script>
 <script>
 "use strict";
 /* ============ Constants ============ */
@@ -763,6 +814,15 @@ const Store = {
     }, 700);
   },
   deleteInk(pid, pgid){ this.chain('ink'+pgid, () => this.mode==='cloud' ? this.col.doc(pid).collection('ink').doc(pgid).delete() : this.lsDel('folio.ink.'+pgid)); },
+  async loadCal(){
+    if (this.mode==='cloud'){ try{ const s = await this.base.collection('calendar').doc('events').get(); return s.exists ? clone(s.data()) : null; }catch(e){ return null; } }
+    return this.lsGet('folio.calendar');
+  },
+  saveCal(){
+    clearTimeout(this.calTimer); setStatus('saving');
+    this.calTimer = setTimeout(() => { const body = clone(S.cal);
+      this.chain('__cal', () => this.mode==='cloud' ? this.base.collection('calendar').doc('events').set(body) : (this.lsSet('folio.calendar', body) ? null : Promise.reject({message:'browser storage is blocked'}))); }, 300);
+  },
   flush(){ for (const id of Object.keys(this.timers)){ clearTimeout(this.timers[id]); delete this.timers[id]; this.savePlanner({id}, true); } }
 };
 document.addEventListener('visibilitychange', () => { if (document.hidden) Store.flush(); });
@@ -798,7 +858,7 @@ function migrate(p){
 }
 
 /* ============ State ============ */
-const S = {meta:null, planners:new Map(), editing:false, view:'lib', folder:'all', q:'', openId:null, pageId:null, sheet:null, picker:null, draw:false,
+const S = {cal:{events:[]}, calMonth:null, calDay:null, calEdit:null, meta:null, planners:new Map(), editing:false, view:'lib', folder:'all', q:'', openId:null, pageId:null, sheet:null, picker:null, draw:false,
   tool:{kind:'pen', color:'ink', hl:'hy', size:2}, penSeen:false, ink:new Map(), selDeco:null, focusBlock:null, status:'saved', statusMsg:''};
 function setStatus(s, err){
   S.status = s;
@@ -892,7 +952,7 @@ function toast(msg, undo){
 }
 
 /* ============ Shelf ============ */
-function render(){ closeMenu(); S.view==='lib' ? renderShelf() : renderEditor(); }
+function render(){ closeMenu(); S.view==='lib' ? renderShelf() : S.view==='cal' ? renderCalendar() : renderEditor(); }
 function renderShelf(){
   document.body.classList.remove('drawing');
   const app = $('#app'); app.replaceChildren();
@@ -905,7 +965,7 @@ function renderShelf(){
   const addBtn = h('button', {class:'addfold', type:'button', title:'New folder', 'aria-label':'New folder', onclick:e => folderForm(e.currentTarget)}, '+');
   const fmenu = S.folder!=='all' ? h('button', {class:'btn ghost', type:'button', 'aria-label':'Folder options', title:'Rename, recolour or delete this folder', onclick:e => folderForm(e.currentTarget, folders().find(f => f.id===S.folder))}, '⋯') : null;
   app.append(h('div', {class:'shelf-wrap'},
-    h('div', {class:'shelf-top'}, h('h1', {}, 'My planners'), search, statusNode(), h('button', {class:'btn ghost', type:'button', id:'shelfMenu', title:'Backup and account', 'aria-label':'Backup and account', onclick:e => shelfMenu(e.currentTarget)}, '⋯')),
+    h('div', {class:'shelf-top'}, h('h1', {}, 'My planners'), h('button', {class:'btn', type:'button', id:'calBtn', onclick:() => openCalendar()}, '📅', ' Calendar'), search, statusNode(), h('button', {class:'btn ghost', type:'button', id:'shelfMenu', title:'Backup and account', 'aria-label':'Backup and account', onclick:e => shelfMenu(e.currentTarget)}, '⋯')),
     h('div', {class:'folderbar'}, chips, addBtn, h('span', {class:'spacer'}), fmenu),
     grid, importInput(),
     h('p', {class:'credit', style:{marginTop:'40px'}}, 'Stickers use your device’s emoji: Apple emoji on Mac, iPhone and iPad. Emoji search data: ', h('a', {href:'https://emojibase.dev', target:'_blank', rel:'noopener'}, 'Emojibase'), ' (MIT).')));
@@ -936,7 +996,7 @@ async function exportBackup(){
         }
       }
     }
-    const json = JSON.stringify({folio:1, exportedAt:new Date().toISOString(), meta:S.meta, planners, ink, images});
+    const json = JSON.stringify({folio:1, exportedAt:new Date().toISOString(), meta:S.meta, planners, ink, images, calendar:S.cal});
     const name = 'folio-backup-' + ymd(new Date()) + '.json';
     const dl = window.claude && typeof window.claude.use==='function' ? await window.claude.use('downloads') : null;
     if (dl){
@@ -963,6 +1023,7 @@ async function importBackup(file){
     }catch(e){}
   }
   for (const f of (data.meta && data.meta.folders) || []) if (!folders().some(x => x.id===f.id)) folders().push(f);
+  if (data.calendar && Array.isArray(data.calendar.events)){ for (const ev of data.calendar.events) if (!S.cal.events.some(x => x.id===ev.id)) S.cal.events.push(ev); Store.saveCal(); }
   Store.saveMeta();
   for (const p of data.planners){
     if (p.example && [...S.planners.values()].some(x => x.example && x.title===p.title && x.id!==p.id)) continue;   // don't duplicate the sample planners
@@ -1047,6 +1108,149 @@ function deletePlanner(id){
   if (S.view==='lib') renderShelf();
   if (S.sheet) renderSheet();
   toast(`Deleted “${p.title}”.`, () => { S.planners.set(id, p); Store.savePlanner(p, true); for (const pg of p.pages){ const ink = S.ink.get(pg.id); if (ink) Store.saveInk(p.id, pg.id, ink); } render(); });
+}
+
+/* ============ Calendar ============ */
+const EV_COLORS = ['#5B7BE0','#E0584B','#2E8B57','#E0A21B','#9B6DD8','#E46FA6'];
+const evColor = ev => ev.color || EV_COLORS[0];
+const pad2 = n => String(n).padStart(2, '0');
+function eventsOn(day){ return (S.cal.events || []).filter(e => e.date===day).sort((a,b) => (a.allDay ? '' : a.start||'').localeCompare(b.allDay ? '' : b.start||'') ); }
+function evUTC(date, time){ const d = new Date(date+'T'+time+':00'); return isNaN(d) ? null : d.toISOString(); }
+function finishEvent(ev){
+  ev.updated = new Date().toISOString();
+  ev.tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  if (ev.allDay){ delete ev.startUTC; delete ev.endUTC; return ev; }
+  ev.startUTC = evUTC(ev.date, ev.start);
+  let end = ev.end && ev.end > ev.start ? ev.end : null;
+  if (!end){ const t = new Date(ev.date+'T'+ev.start+':00'); t.setHours(t.getHours()+1); ev.endUTC = t.toISOString(); ev.end = pad2(t.getHours())+':'+pad2(t.getMinutes()); }
+  else ev.endUTC = evUTC(ev.date, end);
+  return ev;
+}
+function openCalendar(){ const t = new Date(); S.calMonth = S.calMonth || new Date(t.getFullYear(), t.getMonth(), 1, 12); S.calDay = S.calDay || ymd(t); S.calEdit = null; S.view = 'cal'; render(); }
+function renderCalendar(){
+  document.body.classList.remove('drawing');
+  const app = $('#app'); app.replaceChildren();
+  const m = S.calMonth, todayStr = ymd(new Date());
+  const shift = n => { S.calMonth = new Date(m.getFullYear(), m.getMonth()+n, 1, 12); renderCalendar(); };
+  const top = h('header', {class:'cal-top'},
+    h('button', {class:'btn ghost', type:'button', 'aria-label':'Back to planners', onclick:() => { S.view = 'lib'; render(); }}, '←'),
+    h('h1', {}, 'Calendar'),
+    h('button', {class:'btn ghost', type:'button', 'aria-label':'Previous month', onclick:() => shift(-1)}, '‹'),
+    h('span', {class:'cal-month', 'aria-live':'polite'}, m.toLocaleDateString('en-GB', {month:'long', year:'numeric'})),
+    h('button', {class:'btn ghost', type:'button', 'aria-label':'Next month', onclick:() => shift(1)}, '›'),
+    h('button', {class:'btn', type:'button', onclick:() => { const t = new Date(); S.calMonth = new Date(t.getFullYear(), t.getMonth(), 1, 12); S.calDay = todayStr; S.calEdit = null; renderCalendar(); }}, 'Today'),
+    h('span', {class:'spacer'}), h('span', {class:'hide-sm'}, statusNode()),
+    h('button', {class:'btn primary', type:'button', onclick:() => syncSheet()}, '', 'Sync with Apple Calendar'));
+  const grid = h('div', {class:'cal-grid', role:'grid', 'aria-label':'Month'});
+  ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(d => grid.append(h('div', {class:'cal-dow'}, d)));
+  const first = monday(new Date(m.getFullYear(), m.getMonth(), 1, 12));
+  const weeks = Math.ceil((((new Date(m.getFullYear(), m.getMonth()+1, 0, 12)) - first) / 864e5 + 1) / 7);
+  for (let i=0; i<weeks*7; i++){
+    const d = addDays(first, i), key = ymd(d), evs = eventsOn(key);
+    const cell = h('button', {class:'cal-day'+(d.getMonth()!==m.getMonth()?' out':'')+(key===todayStr?' today':'')+(key===S.calDay?' sel':''), type:'button', 'aria-label':d.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'}) + (evs.length ? ', '+evs.length+' events' : ''), onclick:() => { S.calDay = key; S.calEdit = null; renderCalendar(); }},
+      h('span', {class:'dn'}, d.getDate()),
+      evs.slice(0,3).map(ev => h('span', {class:'evchip', style:{'--ec':evColor(ev)}}, (ev.allDay ? '' : ev.start+' ') + ev.title)),
+      evs.length > 3 ? h('span', {class:'evmore'}, '+'+(evs.length-3)+' more') : null);
+    cell.addEventListener('dblclick', () => { S.calDay = key; S.calEdit = {}; renderCalendar(); });
+    grid.append(cell);
+  }
+  const side = h('aside', {class:'cal-side', 'aria-label':'Day'});
+  const day = parseD(S.calDay);
+  side.append(h('h2', {}, day.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'})));
+  const evs = eventsOn(S.calDay);
+  if (S.calEdit) side.append(eventForm(S.calEdit));
+  else side.append(h('button', {class:'btn primary', type:'button', onclick:() => { S.calEdit = {}; renderCalendar(); }}, '+ Add event'));
+  if (!evs.length && !S.calEdit) side.append(h('p', {class:'muted', style:{margin:0}}, 'Nothing planned. Add a date, a birthday, a training or a deadline.'));
+  for (const ev of evs) if (!S.calEdit || S.calEdit.id!==ev.id) side.append(h('button', {class:'evrow', type:'button', style:{'--ec':evColor(ev)}, onclick:() => { S.calEdit = clone(ev); renderCalendar(); }},
+    h('span', {class:'bar'}), h('span', {style:{minWidth:'0', flex:'1'}}, h('span', {class:'tm', style:{display:'block'}}, ev.allDay ? 'All day' : ev.start + ' – ' + ev.end), h('span', {class:'ti', style:{display:'block'}}, ev.title), ev.note ? h('span', {class:'nt', style:{display:'block'}}, ev.note) : null)));
+  app.append(h('div', {class:'cal'}, top, h('div', {class:'cal-body'}, h('div', {class:'cal-gridwrap'}, grid), side)));
+  const ti = $('#evTitle'); if (ti && !S.calEdit.id) setTimeout(() => ti.focus(), 0);
+}
+function eventForm(ed){
+  const isNew = !ed.id;
+  const ev = Object.assign({title:'', date:S.calDay, allDay:false, start:'09:00', end:'10:00', note:'', color:EV_COLORS[0]}, ed);
+  const title = h('input', {class:'input', id:'evTitle', placeholder:'What’s happening?', value:ev.title, maxlength:'120'});
+  const date = h('input', {class:'input', type:'date', id:'evDate', value:ev.date});
+  const all = h('input', {type:'checkbox', id:'evAll'}); all.checked = !!ev.allDay;
+  const start = h('input', {class:'input', type:'time', id:'evStart', value:ev.start||'09:00', step:'300'});
+  const end = h('input', {class:'input', type:'time', id:'evEnd', value:ev.end||'10:00', step:'300'});
+  const times = h('div', {class:'row2'}, start, h('span', {class:'muted'}, 'to'), end);
+  times.hidden = all.checked; all.addEventListener('change', () => times.hidden = all.checked);
+  start.addEventListener('change', () => { if (end.value <= start.value){ const [hh, mm] = start.value.split(':').map(Number); end.value = pad2(Math.min(23, hh+1))+':'+pad2(mm); } });
+  const note = h('textarea', {class:'input', id:'evNote', placeholder:'Notes (optional)', rows:'2'}); note.value = ev.note || '';
+  let color = ev.color;
+  const colors = h('div', {class:'row2', role:'radiogroup', 'aria-label':'Colour'}, EV_COLORS.map(c => { const b = h('button', {class:'sw', type:'button', role:'radio', 'aria-label':'Colour', 'aria-checked': color===c ? 'true':'false', 'aria-pressed': color===c ? 'true':'false', style:{background:c}, onclick:() => { color = c; colors.querySelectorAll('.sw').forEach(x => { x.setAttribute('aria-pressed', x===b?'true':'false'); x.setAttribute('aria-checked', x===b?'true':'false'); }); }}); return b; }));
+  const err = h('div', {class:'credit', style:{color:'var(--danger)'}, hidden:true});
+  const save = e => {
+    e.preventDefault();
+    if (!title.value.trim()){ err.textContent = 'Give the event a name.'; err.hidden = false; title.focus(); return; }
+    if (!date.value){ err.textContent = 'Pick a date.'; err.hidden = false; return; }
+    const out = finishEvent({id: ev.id || uid(), title:title.value.trim(), date:date.value, allDay:all.checked, start:start.value||'09:00', end:end.value, note:note.value.trim(), color});
+    const i = S.cal.events.findIndex(x => x.id===out.id);
+    if (i >= 0) S.cal.events[i] = out; else S.cal.events.push(out);
+    Store.saveCal(); S.calDay = out.date; const d = parseD(out.date); S.calMonth = new Date(d.getFullYear(), d.getMonth(), 1, 12); S.calEdit = null; renderCalendar();
+    toast(isNew ? 'Event added.' : 'Event saved.');
+  };
+  title.addEventListener('input', () => err.hidden = true);
+  return h('form', {class:'evform', onsubmit:save, novalidate:true},
+    h('label', {class:'l', for:'evTitle'}, isNew ? 'New event' : 'Edit event'), title,
+    h('div', {class:'row2'}, date, h('label', {class:'row2', for:'evAll', style:{gap:'6px'}}, all, 'All day')),
+    times, note, colors, err,
+    h('div', {class:'row2', style:{justifyContent:'space-between'}},
+      isNew ? h('span', {}) : h('button', {class:'btn ghost', type:'button', style:{color:'var(--danger)'}, onclick:() => {
+        const i = S.cal.events.findIndex(x => x.id===ev.id); if (i < 0) return; const old = S.cal.events[i];
+        S.cal.events.splice(i, 1); Store.saveCal(); S.calEdit = null; renderCalendar();
+        toast('Event deleted.', () => { S.cal.events.push(old); Store.saveCal(); renderCalendar(); });
+      }}, 'Delete'),
+      h('span', {class:'row2'}, h('button', {class:'btn ghost', type:'button', onclick:() => { S.calEdit = null; renderCalendar(); }}, 'Cancel'), h('button', {class:'btn primary', type:'submit'}, isNew ? 'Add' : 'Save'))));
+}
+function icsFor(events){
+  const esc = t => String(t||'').replace(/\\/g,'\\\\').replace(/;/g,'\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');
+  const z = iso => iso.replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const dd = s => s.replace(/-/g,'');
+  const L = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Folio//Planner//EN','CALSCALE:GREGORIAN'];
+  for (const e of events){
+    L.push('BEGIN:VEVENT','UID:'+e.id+'@folio','DTSTAMP:'+z(e.updated || new Date().toISOString()));
+    if (e.allDay){ const n = addDays(parseD(e.date), 1); L.push('DTSTART;VALUE=DATE:'+dd(e.date), 'DTEND;VALUE=DATE:'+dd(ymd(n))); }
+    else L.push('DTSTART:'+z(e.startUTC), 'DTEND:'+z(e.endUTC));
+    L.push('SUMMARY:'+esc(e.title)); if (e.note) L.push('DESCRIPTION:'+esc(e.note)); L.push('END:VEVENT');
+  }
+  L.push('END:VCALENDAR'); return L.join('\r\n')+'\r\n';
+}
+function syncSheet(){
+  document.querySelector('.scrim')?.remove();
+  const scrim = h('div', {class:'scrim', onclick:e => { if (e.target===scrim) scrim.remove(); }});
+  const body = h('div', {class:'sheet-body'});
+  scrim.append(h('div', {class:'sheet', role:'dialog', 'aria-modal':'true', 'aria-label':'Sync with Apple Calendar', style:{width:'min(620px,100%)'}},
+    h('div', {class:'sheet-head'}, h('h2', {}, 'Sync with Apple Calendar'), h('button', {class:'btn ghost', type:'button', 'aria-label':'Close', onclick:() => scrim.remove()}, '✕')), body));
+  document.body.append(scrim);
+  if (Store.feedUrl){
+    body.append(h('p', {class:'muted'}, 'Getting your calendar link…'));
+    Store.feedUrl().then(url => {
+      const web = url.replace(/^https:/, 'webcal:');
+      const code = h('code', {}, web);
+      const copy = h('button', {class:'btn', type:'button', onclick:async () => { try{ await navigator.clipboard.writeText(web); toast('Link copied.'); }catch(e){ const r = document.createRange(); r.selectNodeContents(code); getSelection().removeAllRanges(); getSelection().addRange(r); toast('Press Cmd+C to copy.'); } }}, 'Copy link');
+      body.replaceChildren(h('div', {class:'syncbox'},
+        h('p', {style:{margin:0}}, 'Your Folio events appear in the Calendar app on your Mac and iPhone and update by themselves. You add and change events here, in Folio.'),
+        h('div', {class:'row2', style:{display:'flex', gap:'8px', flexWrap:'wrap'}}, h('a', {class:'btn primary', href:web}, 'Add to Calendar on this device'), copy),
+        h('b', {}, 'On your Mac (do this once)'),
+        h('ol', {}, h('li', {}, 'Press “Add to Calendar on this device”. The Calendar app opens.'), h('li', {}, 'Click Subscribe. Set Location to iCloud and Auto-refresh to Every 5 minutes, then OK.'), h('li', {}, 'Because it’s saved in iCloud, it shows up on your iPhone too.')),
+        h('b', {}, 'Only on iPhone'),
+        h('ol', {}, h('li', {}, 'Copy the link. Open Settings → Apps → Calendar → Calendar Accounts → Add Account → Other → Add Subscribed Calendar.'), h('li', {}, 'Paste the link and tap Next, then Save.')),
+        code,
+        h('p', {class:'credit', style:{margin:0}}, 'Keep this link to yourself: anyone with it can see your Folio events. ', h('button', {class:'btn ghost', type:'button', style:{padding:'2px 6px', fontSize:'12px'}, onclick:async () => { if (!Store.resetFeed) return; await Store.resetFeed(); scrim.remove(); syncSheet(); toast('New link made. Subscribe again with the new one.'); }}, 'Make a new link'))));
+    }).catch(() => body.replaceChildren(h('p', {style:{color:'var(--danger)'}}, 'Couldn’t get the calendar link. Check the internet and try again.')));
+  } else {
+    const dl = async () => {
+      const ics = icsFor(S.cal.events), name = 'folio-calendar.ics';
+      const d = window.claude && typeof window.claude.use==='function' ? await window.claude.use('downloads') : null;
+      if (d){ try{ await d.save({filename:name, data:new Blob([ics], {type:'text/calendar'})}); }catch(e){} }
+      else { const a = h('a', {href:URL.createObjectURL(new Blob([ics], {type:'text/calendar'})), download:name}); document.body.append(a); a.click(); a.remove(); }
+    };
+    body.append(h('div', {class:'syncbox'},
+      h('p', {style:{margin:0}}, 'Automatic sync works on your Folio website (nastyaoleyna.github.io/folio). Here you can download your events as a file and open it in Calendar to add them once.'),
+      h('button', {class:'btn primary', type:'button', onclick:dl}, 'Download events (.ics)')));
+  }
 }
 
 /* ============ New planner sheet ============ */
@@ -1469,7 +1673,7 @@ const RB = {
     for (let i=0; i<8; i++){
       const d = addDays(mon, i);
       g.append(h('div', {}, i<7 ? h('div', {class:'wkh'}, h('span', {}, DAYS[i]), h('b', {}, d.getDate())) : h('div', {class:'wkh'}, h('span', {}, 'Notes'), h('span', {}, 'Week '+isoWeek(mon))),
-        editable('div', '', b.cells[i], v => b.cells[i] = v)));
+        editable('div', '', b.cells[i], v => b.cells[i] = v), i<7 ? eventsOn(ymd(d)).map(ev => h('span', {class:'wkev', style:{'--ec':evColor(ev)}}, (ev.allDay ? '' : ev.start+' ') + ev.title)) : null));
     }
     body.append(g);
   },
@@ -1830,6 +2034,8 @@ function seedExamples(){
   Stickers.load();
   await Store.init();
   const {meta, planners} = await Store.load();
+  const cal = await Store.loadCal();
+  S.cal = cal && Array.isArray(cal.events) ? cal : {events:[]};
   if (meta && Array.isArray(meta.folders)){
     S.meta = meta;
     S.meta.folders = S.meta.folders.map((f, i) => ({id:f.id, name:f.name, color: f.color || (DEFAULT_FOLDERS.find(d => d.id===f.id)||{}).color || FOLDER_COLORS[(i+4) % FOLDER_COLORS.length].c}));
